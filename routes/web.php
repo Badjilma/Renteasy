@@ -20,6 +20,7 @@ Route::get('/login', [OwnerController::class, 'showLoginForm'])->name('login.for
 Route::post('/register', [OwnerController::class, 'register'])->name('register.attempt');
 Route::post('/login', [OwnerController::class, 'login'])->name('login.connect');
 
+
 // Routes pour les propriétés
 Route::middleware('auth:user')->group(function () {
     // Propriétés
@@ -50,4 +51,5 @@ Route::middleware('auth:user')->group(function () {
     Route::post('/tenants/{tenant}/maintenance-requests', [MaintenanceRequestController::class, 'store']);
     // Route pour la mise à jour des demandes de maintenance (commentée dans votre contrôleur)
     // Route::put('/maintenance-requests/{maintenanceRequest}', [MaintenanceRequestController::class, 'update']);
+
 });
