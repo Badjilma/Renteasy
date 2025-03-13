@@ -7,8 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class userController extends Controller
+class OwnerController extends Controller
 {
+    //fonction pour afficher la page de l'inscription
+    public function showRegisterForm()
+    {
+        return view('ownersite.register');
+    }
+    //fonction pour afficher la page de connexion
+    public function showLoginForm()
+    {
+        return view('ownersite.login');
+    }
     public function register(Request $request)
     {
         $request->validate([
@@ -25,10 +35,7 @@ class userController extends Controller
             'phone' => $request->phone,
         ]);
 
-        return response()->json([
-            'message' => 'Propriétaire enregistré avec succès',
-            'user' => $user
-        ], 201);
+        return redirect()->route('login.form')->with('success', 'Propriétaire enregistré avec succès. Veuillez vous connecter.');
     }
 
     public function login(Request $request)
@@ -48,6 +55,6 @@ class userController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Identifiants invalides'], 401);
+        return redirect('/')->with('success', 'Connexion réussie !');
     }
 }
