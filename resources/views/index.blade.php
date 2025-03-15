@@ -4,14 +4,16 @@
 
 @section('content')
 
-<div class="site-blocks-cover overlay" style="background-image: url(images/hero_1.jpg);" data-aos="fade" id="home-section">
+<div class="site-blocks-cover overlay" style="background-image: url('template/images/hero_1.jpg');" data-aos="fade" id="home-section">
 
 
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-md-6 mt-lg-5 text-center">
-                <h1>Buy and sell real estate properties</h1>
-                <p class="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam assumenda ea quo cupiditate facere deleniti fuga officia.</p>
+                <h1>Mettez à profit votre propriété dans le numérique</h1>
+                <p class="mb-5">Vous avez des soucis pour gérer vos locataires de vos propriétés, les paiements, les règles de la maison, 
+                    les contrats, des maintenances de la maison...? Vous êtes au bon endroit!!!
+                </p>
 
             </div>
         </div>

@@ -12,10 +12,7 @@
 
                     <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                         <li><a href="#home-section" class="nav-link">Accueil</a></li>
-                        <li><a href="#properties-section" class="nav-link">Ajout propriétés</a></li>
                         <li><a href="#properties" class="nav-link">Propriétés</a></li>
-                        <li><a href="#agents-section" class="nav-link">Ajout locataires</a></li>
-                        <li><a href="#about-section" class="nav-link">Locataires</a></li>
                         <li><a href="#news-section" class="nav-link">Notifications</a></li>
                         <li><a href="#contact-section" class="nav-link">Contact</a></li>
                     </ul>

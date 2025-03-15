@@ -12,9 +12,22 @@ Route::get('/', function () {
     return view('index');
 });
 
-// Routes pour l'authentification et la gestion des utilisateurs (propriétaires)
-Route::post('/register', [OwnerController::class, 'register']);
-Route::post('/login', [OwnerController::class, 'login']);
+
+/////////////les routes pour le site de owner//////////////////
+Route::get('/indexOwner', function () {
+    return view('ownersite.index');
+})->name('accueilindex');
+
+
+// Routes pour afficher les formulaires
+Route::get('/register', [OwnerController::class, 'showRegisterForm'])->name('register.form');
+Route::get('/login', [OwnerController::class, 'showLoginForm'])->name('login.form');
+
+// Routes pour traiter les formulaires 
+Route::post('/register', [OwnerController::class, 'register'])->name('register.attempt');
+Route::post('/login', [OwnerController::class, 'login'])->name('login.connect');
+
+/////////////les routes pour le site visiteur//////////////////
 
 // Routes pour les propriétés
 Route::middleware('auth:user')->group(function () {                                                                                                                                                                                                                                                                                                                                                                                                                  
@@ -46,4 +59,5 @@ Route::middleware('auth:user')->group(function () {
     Route::post('/tenants/{tenant}/maintenance-requests', [MaintenanceRequestController::class, 'store']);
     // Route pour la mise à jour des demandes de maintenance (commentée dans votre contrôleur)
     // Route::put('/maintenance-requests/{maintenanceRequest}', [MaintenanceRequestController::class, 'update']);
+
 });

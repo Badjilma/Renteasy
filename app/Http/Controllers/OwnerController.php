@@ -9,45 +9,50 @@ use Illuminate\Support\Facades\Hash;
 
 class OwnerController extends Controller
 {
+    //fonction pour afficher la page de l'inscription
+    public function showRegisterForm()
+    {
+        return view('ownersite.register');
+    }
+    //fonction pour afficher la page de connexion
+    public function showLoginForm()
+    {
+        return view('ownersite.login');
+    }
     public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'phone' => 'required|string|max:8',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed', // Ceci vérifie si password_confirmation correspond
+        'phone' => 'required|string|max:8',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-        ]);
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'phone' => $request->phone,
+    ]);
 
-        return response()->json([
-            'message' => 'Propriétaire enregistré avec succès',
-            'user' => $user
-        ], 201);
+    return redirect()->route('login.form')->with('success', 'Vous êtes enregistré avec succès. Veuillez vous connecter.');
+}
+
+public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (Auth::attempt($request->only('email', 'password'))) {
+        // Si la connexion réussit, redirigez vers la page d'index
+        return redirect('/indexOwner')->with('success', 'Connexion réussie !');
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (Auth::guard('user')->attempt($request->only('email', 'password'))) {
-            $user = Auth::guard('user')->user();
-            //$token = $user->createToken('user-token')->plainTextToken;
-
-            return response()->json([
-                //'token' => $token,
-                'user' => $user
-            ]);
-        }
-
-        return response()->json(['message' => 'Identifiants invalides'], 401);
-    }
+    // Si la connexion échoue, retournez à la page de connexion avec une erreur
+    return back()->withErrors([
+        'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
+    ])->withInput($request->only('email'));
+}
 }
