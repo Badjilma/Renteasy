@@ -17,7 +17,7 @@ Route::post('/register', [OwnerController::class, 'register']);
 Route::post('/login', [OwnerController::class, 'login']);
 
 // Routes pour les propriétés
-Route::middleware('auth:user')->group(function () {
+Route::middleware('auth:user')->group(function () {                                                                                                                                                                                                                                                                                                                                                                                                                  
     // Propriétés
     Route::get('/properties', [PropertyController::class, 'index']);
     Route::post('/properties', [PropertyController::class, 'store']);
