@@ -21,22 +21,24 @@ Route::get('/indexOwner', function () {
 
 // Routes pour afficher les formulaires
 Route::get('/register', [OwnerController::class, 'showRegisterForm'])->name('register.form');
-Route::get('/login', [OwnerController::class, 'showLoginForm'])->name('login.form');
+Route::get('/login', [OwnerController::class, 'showLoginForm'])->name('login');
 
-// Routes pour traiter les formulaires 
+// Routes pour traiter les formulaires
 Route::post('/register', [OwnerController::class, 'register'])->name('register.attempt');
 Route::post('/login', [OwnerController::class, 'login'])->name('login.connect');
 
 /////////////les routes pour le site visiteur//////////////////
 
+// Propriétés
+Route::get('/properties/create', function () {
+    return view('ownersite.addproperties');
+})->name('properties.form');
+Route::get('/properties', [PropertyController::class, 'index'])->name('properties.all');
+Route::post('/properties', [PropertyController::class, 'store'])->name('properties.create');
+Route::put('/properties/{property}', [PropertyController::class, 'update'])->name('properties.edit');
+Route::delete('/properties/{property}', [PropertyController::class, 'destroy'])->name('properties.delete');
 // Routes pour les propriétés
-Route::middleware('auth:user')->group(function () {                                                                                                                                                                                                                                                                                                                                                                                                                  
-    // Propriétés
-    Route::get('/properties', [PropertyController::class, 'index']);
-    Route::post('/properties', [PropertyController::class, 'store']);
-    Route::put('/properties/{property}', [PropertyController::class, 'update']);
-    Route::delete('/properties/{property}', [PropertyController::class, 'destroy']);
-
+Route::middleware('auth:user')->group(function () {
     // Chambres
     Route::get('/properties/{property}/rooms', [RoomController::class, 'index']);
     Route::post('/properties/{property}/rooms', [RoomController::class, 'store']);

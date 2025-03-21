@@ -11,7 +11,7 @@
                 <div class="modal-body">Cliquer sur "Deconnexion" si vous le voulez vraiment</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{route('login.form')}}">Deconnexion</a>
+                    <a class="btn btn-primary" href="{{route('login')}}">Deconnexion</a>
                 </div>
             </div>
         </div>

@@ -35,7 +35,7 @@ class OwnerController extends Controller
         'phone' => $request->phone,
     ]);
 
-    return redirect()->route('login.form')->with('success', 'Vous êtes enregistré avec succès. Veuillez vous connecter.');
+    return redirect()->route('login')->with('success', 'Vous êtes enregistré avec succès. Veuillez vous connecter.');
 }
 
 public function login(Request $request)
