@@ -9,131 +9,163 @@ use Illuminate\Support\Facades\Storage;
 
 class PropertyController extends Controller
 {
-    //affichage de la page d'accueil avec recupérations des règles, chambres et photos secondaires
-    public function index()
-    {
+   //affichage de la page d'accueil avec recupérations des règles, chambres et photos secondaires
+   public function index()
+   {
+       $user_id = Auth::id();
+       $properties = Property::with(['rules', 'rooms', 'secondaryPhotos'])
+           ->where('user_id', $user_id)
+           ->get();
 
-        try {
-            $user_id = Auth::id();
-            $properties = Property::with(['rules', 'rooms', 'secondaryPhotos'])
-                ->where('user_id', $user_id)
-                ->get();
+       return view('ownersite.allproperties', compact('properties'));
+   }
 
-            return response()->json($properties);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Erreur lors de la récupération des propriétés'], 500);
-        }
-    }
+   public function create()
+   {
+       return view('ownersite.addproperties');
+   }
 
-    public function store(Request $request)
-    {
-        try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'address' => 'required|string',
-                'description' => 'required|string',
-                'principal_photo' => 'required|image',
-                'rules' => 'array',
-                'secondary_photos.*' => 'image'
-            ]);
+   public function store(Request $request)
+   {
+       $request->validate([
+           'name' => 'required|string|max:255',
+           'address' => 'required|string',
+           'description' => 'required|string',
+           'principal_photo' => 'required|image',
+           'rules' => 'array',
+           'secondary_photos.*' => 'image'
+       ]);
 
-            $principalPhotoPath = $request->file('principal_photo')
-                ->store('properties/principal', 'public');
-            $user_id = Auth::id();
-            $property = Property::create([
-                'name' => $request->name,
-                'address' => $request->address,
-                'description' => $request->description,
-                'principal_photo' => $principalPhotoPath,
-                'availability' => true,
-                'user_id' => $user_id
-            ]);
+       $principalPhotoPath = $request->file('principal_photo')
+           ->store('properties/principal', 'public');
+       $user_id = Auth::id();
+       $property = Property::create([
+           'name' => $request->name,
+           'address' => $request->address,
+           'description' => $request->description,
+           'principal_photo' => $principalPhotoPath,
+           'availability' => true,
+           'user_id' => $user_id
+       ]);
 
-            // Enregistrement des règles
-            if ($request->has('rules')) {
-                foreach ($request->rules as $rule) {
-                    $property->rules()->create(['title' => $rule]);
-                }
-            }
+       // Enregistrement des règles
+       if ($request->has('rules')) {
+           foreach ($request->rules as $rule) {
+               $property->rules()->create(['title' => $rule]);
+           }
+       }
 
-            // Enregistrement des photos secondaires
-            if ($request->hasFile('secondary_photos')) {
-                foreach ($request->file('secondary_photos') as $photo) {
-                    $path = $photo->store('properties/secondary', 'public');
-                    $property->secondaryPhotos()->create([
-                        'properties_photo' => $path
-                    ]);
-                }
-            }
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Erreur lors de la création de la propriété'], 500);
-        }
-    }
+       // Enregistrement des photos secondaires
+       if ($request->hasFile('secondary_photos')) {
+           foreach ($request->file('secondary_photos') as $photo) {
+               $path = $photo->store('properties/secondary', 'public');
+               $property->secondaryPhotos()->create([
+                   'property_photo' => $path
+               ]);
+           }
+       }
 
-    public function update(Request $request, Property $property)
-    {
-        // $this->authorize('update', $property);
+       return redirect()->route('properties.all')
+           ->with('success', 'Propriété créée avec succès');
+   }
 
-        $request->validate([
-            'name' => 'string|max:255',
-            'address' => 'string',
-            'description' => 'string',
-            'principal_photo' => 'sometimes|image',
-            'rules' => 'array',
-            'secondary_photos.*' => 'image'
-        ]);
+   public function show($id)
+   {
+       $property = Property::with(['rules', 'rooms', 'secondaryPhotos'])
+           ->findOrFail($id);
 
-        if ($request->hasFile('principal_photo')) {
-            Storage::disk('public')->delete($property->principal_photo);
-            $property->principal_photo = $request->file('principal_photo')
-                ->store('properties/principal', 'public');
-        }
+       // Vérification que l'utilisateur est bien le propriétaire
+       if ($property->user_id !== Auth::id()) {
+           abort(403, 'Accès non autorisé');
+       }
 
-        $property->update($request->only([
-            'name',
-            'address',
-            'description',
-            'availability'
-        ]));
+       return view('ownersite.showproperty', compact('property'));
+   }
 
-        // Mise à jour des règles
-        if ($request->has('rules')) {
-            $property->rules()->delete();
-            foreach ($request->rules as $rule) {
-                $property->rules()->create(['title' => $rule]);
-            }
-        }
+   public function edit($id)
+   {
+       $property = Property::with(['rules', 'rooms', 'secondaryPhotos'])
+           ->findOrFail($id);
 
-        // Ajout de nouvelles photos secondaires
-        if ($request->hasFile('secondary_photos')) {
-            foreach ($request->file('secondary_photos') as $photo) {
-                $path = $photo->store('properties/secondary', 'public');
-                $property->secondaryPhotos()->create([
-                    'properties_photo' => $path
-                ]);
-            }
-        }
+       // Vérification que l'utilisateur est bien le propriétaire
+       if ($property->user_id !== Auth::id()) {
+           abort(403, 'Accès non autorisé');
+       }
 
-        return response()->json([
-            'message' => 'Propriété mise à jour avec succès',
-            'property' => $property->load(['rules', 'secondaryPhotos'])
-        ]);
-    }
+       return view('ownersite.editproperties', compact('property'));
+   }
 
-    public function destroy(Property $property)
-    {
-        // $this->authorize('delete', $property);
+   public function update(Request $request, $id)
+   {
+       $property = Property::findOrFail($id);
 
-        // Suppression des fichiers de photos
-        Storage::disk('public')->delete($property->principal_photo);
-        foreach ($property->secondaryPhotos as $photo) {
-            Storage::disk('public')->delete($photo->properties_photo);
-        }
+       // Vérification que l'utilisateur est bien le propriétaire
+       if ($property->user_id !== Auth::id()) {
+           abort(403, 'Accès non autorisé');
+       }
 
-        $property->delete();
+       $request->validate([
+           'name' => 'string|max:255',
+           'address' => 'string',
+           'description' => 'string',
+           'principal_photo' => 'sometimes|image',
+           'rules' => 'array',
+           'secondary_photos.*' => 'image'
+       ]);
 
-        return response()->json([
-            'message' => 'Propriété supprimée avec succès'
-        ]);
-    }
+       if ($request->hasFile('principal_photo')) {
+           Storage::disk('public')->delete($property->principal_photo);
+           $property->principal_photo = $request->file('principal_photo')
+               ->store('properties/principal', 'public');
+       }
+
+       $property->update($request->only([
+           'name',
+           'address',
+           'description',
+           'availability'
+       ]));
+
+       // Mise à jour des règles
+       if ($request->has('rules')) {
+           $property->rules()->delete();
+           foreach ($request->rules as $rule) {
+               $property->rules()->create(['title' => $rule]);
+           }
+       }
+
+       // Ajout de nouvelles photos secondaires
+       if ($request->hasFile('secondary_photos')) {
+           foreach ($request->file('secondary_photos') as $photo) {
+               $path = $photo->store('properties/secondary', 'public');
+               $property->secondaryPhotos()->create([
+                   'property_photo' => $path
+               ]);
+           }
+       }
+
+       return redirect()->route('properties.all')
+           ->with('success', 'Propriété mise à jour avec succès');
+   }
+
+   public function destroy($id)
+   {
+       $property = Property::findOrFail($id);
+
+       // Vérification que l'utilisateur est bien le propriétaire
+       if ($property->user_id !== Auth::id()) {
+           abort(403, 'Accès non autorisé');
+       }
+
+       // Suppression des fichiers de photos
+       Storage::disk('public')->delete($property->principal_photo);
+       foreach ($property->secondaryPhotos as $photo) {
+           Storage::disk('public')->delete($photo->property_photo);
+       }
+
+       $property->delete();
+
+       return redirect()->route('properties.all')
+           ->with('success', 'Propriété supprimée avec succès');
+   }
 }

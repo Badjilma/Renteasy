@@ -35,8 +35,10 @@ Route::get('/properties/create', function () {
 })->name('properties.form');
 Route::get('/properties', [PropertyController::class, 'index'])->name('properties.all');
 Route::post('/properties', [PropertyController::class, 'store'])->name('properties.create');
-Route::put('/properties/{property}', [PropertyController::class, 'update'])->name('properties.edit');
-Route::delete('/properties/{property}', [PropertyController::class, 'destroy'])->name('properties.delete');
+Route::post('/properties/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
+Route::put('/properties/{id}', [PropertyController::class, 'update'])->name('properties.update');
+Route::get('/properties/{id}', [PropertyController::class, 'show'])->name('properties.show');
+Route::delete('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.delete');
 // Routes pour les propriétés
 Route::middleware('auth:user')->group(function () {
     // Chambres

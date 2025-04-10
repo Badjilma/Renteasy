@@ -19,7 +19,7 @@ class Property extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function propertySecondaryPhoto()
+    public function secondaryPhotos()
     {
         return $this->hasMany(PropertySecondaryPhoto::class);
     }
