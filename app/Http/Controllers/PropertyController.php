@@ -85,12 +85,7 @@ class PropertyController extends Controller
    public function edit($id)
    {
        $property = Property::with(['rules', 'rooms', 'secondaryPhotos'])
-           ->findOrFail($id);
-
-       // Vérification que l'utilisateur est bien le propriétaire
-       if ($property->user_id !== Auth::id()) {
-           abort(403, 'Accès non autorisé');
-       }
+           ->find($id);
 
        return view('ownersite.editproperties', compact('property'));
    }
@@ -98,12 +93,6 @@ class PropertyController extends Controller
    public function update(Request $request, $id)
    {
        $property = Property::findOrFail($id);
-
-       // Vérification que l'utilisateur est bien le propriétaire
-       if ($property->user_id !== Auth::id()) {
-           abort(403, 'Accès non autorisé');
-       }
-
        $request->validate([
            'name' => 'string|max:255',
            'address' => 'string',
@@ -151,12 +140,6 @@ class PropertyController extends Controller
    public function destroy($id)
    {
        $property = Property::findOrFail($id);
-
-       // Vérification que l'utilisateur est bien le propriétaire
-       if ($property->user_id !== Auth::id()) {
-           abort(403, 'Accès non autorisé');
-       }
-
        // Suppression des fichiers de photos
        Storage::disk('public')->delete($property->principal_photo);
        foreach ($property->secondaryPhotos as $photo) {
