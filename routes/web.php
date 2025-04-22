@@ -31,7 +31,7 @@ Route::post('/login', [OwnerController::class, 'login'])->name('login.connect');
 
 // Propriétés
 Route::get('/properties/create', function () {
-    return view('ownersite.addproperties');
+    return view('ownersite.properties.addproperties');
 })->name('properties.form');
 
 Route::get('/properties', [PropertyController::class, 'index'])->name('properties.all');
@@ -41,13 +41,16 @@ Route::put('/properties/{id}', [PropertyController::class, 'update'])->name('pro
 Route::get('/properties/{id}', [PropertyController::class, 'show'])->name('properties.show');
 Route::delete('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.delete');
 
-Route::middleware('auth:user')->group(function () {
+Route::middleware('auth')->group(function () {
     // Chambres
-    Route::get('/properties/{property}/rooms', [RoomController::class, 'index']);
-    Route::post('/properties/{property}/rooms', [RoomController::class, 'store']);
-    Route::put('/rooms/{room}', [RoomController::class, 'update']);
-    Route::delete('/rooms/{room}', [RoomController::class, 'destroy']);
-
+    Route::get('/properties/{property}/rooms', [RoomController::class, 'index'])->name('rooms.all');
+    Route::get('/properties/{property}/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/properties/{property}/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    Route::get('/properties/{property}/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
+    Route::get('/properties/{property}/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::put('/properties/{property}/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
+    Route::delete('/properties/{property}/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.delete');
+    
     // Locataires
     Route::get('/tenants', [TenantController::class, 'index']);
     Route::post('/tenants', [TenantController::class, 'store']);

@@ -12,10 +12,15 @@ class RoomController extends Controller
     public function index(Property $property)
     {
         $rooms = $property->rooms()
-            ->with(['caracteristiques', 'secondaryPhotos'])
+            ->with(['roomCaracteristic', 'roomSecondaryPhoto'])
             ->get();
 
-        return response()->json($rooms);
+        return view('ownersite.rooms.allrooms', compact('property', 'rooms'));
+    }
+
+    public function create(Property $property)
+    {
+        return view('ownersite.rooms.addrooms', compact('property'));
     }
 
     public function store(Request $request, Property $property)
@@ -43,8 +48,8 @@ class RoomController extends Controller
         // Ajout des caractéristiques
         if ($request->has('caracteristiques')) {
             foreach ($request->caracteristiques as $caracteristique) {
-                $room->caracteristiques()->create([
-                    'message' => $caracteristique
+                $room->roomCaracteristic()->create([
+                    'title' => $caracteristique
                 ]);
             }
         }
@@ -53,20 +58,47 @@ class RoomController extends Controller
         if ($request->hasFile('secondary_photos')) {
             foreach ($request->file('secondary_photos') as $photo) {
                 $path = $photo->store('rooms/secondary', 'public');
-                $room->secondaryPhotos()->create([
-                    'rooms_photo' => $path
+                $room->roomSecondaryPhoto()->create([
+                    'room_photo' => $path
                 ]);
             }
         }
 
-        return response()->json([
-            'message' => 'Chambre ajoutée avec succès',
-            'room' => $room->load(['caracteristiques', 'secondaryPhotos'])
-        ], 201);
+        return redirect()->route('rooms.all', $property->id)
+            ->with('success', 'Chambre ajoutée avec succès');
     }
 
-    public function update(Request $request, Room $room)
+    public function show(Property $property, Room $room)
     {
+
+        // Vérification que la chambre appartient bien à la propriété
+        if ($room->property_id !== $property->id) {
+            abort(404, 'Chambre non trouvée');
+        }
+
+        $room->load(['roomCaracteristic', 'roomSecondaryPhoto']);
+
+        return view('ownersite.rooms.showrooms', compact('property', 'room'));
+    }
+
+    public function edit(Property $property, Room $room)
+    {
+        // Vérification que la chambre appartient bien à la propriété
+        if ($room->property_id !== $property->id) {
+            abort(404, 'Chambre non trouvée');
+        }
+
+        $room->load(['roomCaracteristic', 'roomSecondaryPhoto']);
+
+        return view('ownersite.rooms.editrooms', compact('property', 'room'));
+    }
+
+    public function update(Request $request, Property $property, Room $room)
+    {
+        // Vérification que la chambre appartient bien à la propriété
+        if ($room->property_id !== $property->id) {
+            abort(404, 'Chambre non trouvée');
+        }
 
         $request->validate([
             'name' => 'string|max:255',
@@ -92,32 +124,29 @@ class RoomController extends Controller
 
         // Mise à jour des caractéristiques
         if ($request->has('caracteristiques')) {
-            $room->caracteristiques()->delete();
+            $room->roomCaracteristic()->delete();
             foreach ($request->caracteristiques as $caracteristique) {
-                $room->caracteristiques()->create([
-                    'message' => $caracteristique
+                $room->roomCaracteristic()->create([
+                    'title' => $caracteristique
                 ]);
             }
         }
 
-        return response()->json([
-            'message' => 'Chambre mise à jour avec succès',
-            'room' => $room->load(['caracteristiques', 'secondaryPhotos'])
-        ]);
+        return redirect()->route('rooms.all', $property->id)
+            ->with('success', 'Chambre mise à jour avec succès');
     }
 
-    public function destroy(Room $room)
+    public function destroy(Property $property, Room $room)
     {
 
         Storage::disk('public')->delete($room->principal_photo);
-        foreach ($room->secondaryPhotos as $photo) {
-            Storage::disk('public')->delete($photo->rooms_photo);
+        foreach ($room->roomSecondaryPhoto as $photo) {
+            Storage::disk('public')->delete($photo->room_photo);
         }
 
         $room->delete();
 
-        return response()->json([
-            'message' => 'Chambre supprimée avec succès'
-        ]);
+        return redirect()->route('rooms.all', $property->id)
+            ->with('success', 'Chambre supprimée avec succès');
     }
 }

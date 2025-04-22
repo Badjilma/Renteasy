@@ -17,12 +17,12 @@ class PropertyController extends Controller
            ->where('user_id', $user_id)
            ->get();
 
-       return view('ownersite.allproperties', compact('properties'));
+       return view('ownersite.properties.allproperties', compact('properties'));
    }
 
    public function create()
    {
-       return view('ownersite.addproperties');
+       return view('ownersite.properties.addproperties');
    }
 
    public function store(Request $request)
@@ -79,7 +79,7 @@ class PropertyController extends Controller
            abort(403, 'Accès non autorisé');
        }
 
-       return view('ownersite.showproperty', compact('property'));
+       return view('ownersite.properties.showproperty', compact('property'));
    }
 
    public function edit($id)
@@ -87,7 +87,7 @@ class PropertyController extends Controller
        $property = Property::with(['rules', 'rooms', 'secondaryPhotos'])
            ->find($id);
 
-       return view('ownersite.editproperties', compact('property'));
+       return view('ownersite.properties.editproperties', compact('property'));
    }
 
    public function update(Request $request, $id)
