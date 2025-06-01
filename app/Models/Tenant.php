@@ -22,6 +22,6 @@ class Tenant extends Model
     }
     public function rooms()
     {
-        return $this->belongsToMany(Room::class, 'tenant_room')->withTimestamps();
+        return $this->belongsToMany(Room::class, 'tenant_rooms')->withTimestamps();
     }
 }

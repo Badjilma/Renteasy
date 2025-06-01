@@ -70,13 +70,11 @@
                             <h6 class="font-weight-bold text-gray-800">
                                 <i class="fas fa-list-ul mr-1"></i> Caractéristiques
                             </h6>
-                            <ul class="caracteristiques-list">
-                                @forelse($room->roomCaracteristic as $caracteristique)
-                                    <li>{{ $caracteristique->message }}</li>
-                                @empty
-                                    <li class="text-muted">Aucune caractéristique définie</li>
-                                @endforelse
-                            </ul>
+                            <ul class="caracteristics-list">
+                        @foreach($room->roomCaracteristic as $caracteristic)
+                        <li class="mb-2">{{ $caracteristic->title }}</li>
+                        @endforeach
+                    </ul>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">

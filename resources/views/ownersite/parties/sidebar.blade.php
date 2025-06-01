@@ -53,8 +53,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menus</h6>
-                        <a class="collapse-item" href="#">Ajouter un locataire</a>
-                        <a class="collapse-item" href="#">Voir tout</a>
+                        <a class="collapse-item" href="{{route('tenants.create')}}">Ajouter un locataire</a>
+                        <a class="collapse-item" href="{{route('tenants.all')}}">Voir tout</a>
                         {{-- <a class="collapse-item" href="utilities-animation.html">Animations</a>
                         <a class="collapse-item" href="utilities-other.html">Other</a> --}}
                     </div>

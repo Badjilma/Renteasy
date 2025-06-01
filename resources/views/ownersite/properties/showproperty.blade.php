@@ -121,8 +121,8 @@
                             <div>
                                 <h6 class="mb-1">{{ $room->name }}</h6>
                                 <p class="mb-1 small">
-                                    <span class="text-primary">{{ $room->price }} €/mois</span> -
-                                    <span class="text-muted">{{ $room->size }} m²</span>
+                                    <span class="text-primary">{{ $room->price }} FCFA/mois</span> -
+                                    {{-- <span class="text-muted">{{ $room->size }} m²</span> --}}
                                 </p>
                             </div>
                             <span class="badge {{ $room->occupied ? 'badge-danger' : 'badge-success' }}">
