@@ -27,31 +27,31 @@
     <div class="container">
         <div class="row mb-5 justify-content-center">
             <div class="col-md-7 text-center">
-                <h2 class="section-title mb-3">How It Works</h2>
+                <h2 class="section-title mb-3">Comment ça marche</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4 text-center">
                 <div class="pr-5">
                     <span class="custom-icon flaticon-house text-primary"></span>
-                    <h3 class="text-dark">Find Property.</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <h3 class="text-dark">Trouvez votre logement</h3>
+                    <p>Parcourez notre sélection de propriétés et trouvez le logement parfait qui correspond à vos critères et votre budget.</p>
                 </div>
             </div>
 
             <div class="col-md-4 text-center">
                 <div class="pr-5">
                     <span class="custom-icon flaticon-coin text-primary"></span>
-                    <h3 class="text-dark">Buy Property.</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <h3 class="text-dark">Visitez la propriété</h3>
+                    <p>Organisez une visite pour découvrir le logement en détail et vous assurer qu'il répond à toutes vos attentes.</p>
                 </div>
             </div>
 
             <div class="col-md-4 text-center">
                 <div class="pr-5">
                     <span class="custom-icon flaticon-home text-primary"></span>
-                    <h3 class="text-dark">Make Investment.</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <h3 class="text-dark">Contactez le propriétaire</h3>
+                    <p>Entrez directement en contact avec le propriétaire pour finaliser les détails et conclure votre location.</p>
                 </div>
             </div>
         </div>
@@ -143,7 +143,7 @@
 </div>
 
 
-<section class="site-section border-bottom" id="agents-section">
+{{-- <section class="site-section border-bottom" id="agents-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-7 text-left">
@@ -265,7 +265,7 @@
 
         </div>
     </div>
-</section>
+</section> --}}
 
 
 <section class="site-section" id="about-section">

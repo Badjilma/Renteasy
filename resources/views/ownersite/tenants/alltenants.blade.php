@@ -85,12 +85,7 @@
                                 <a href="{{ route('tenants.edit', $tenant->id) }}" class="btn btn-warning btn-sm" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" class="btn btn-success btn-sm" title="Assigner une chambre" 
-                                        data-toggle="modal" data-target="#assignRoomModal" 
-                                        data-tenant-id="{{ $tenant->id }}" 
-                                        data-tenant-name="{{ $tenant->name }}">
-                                    <i class="fas fa-home"></i>
-                                </button>
+                               
                             </td>
                         </tr>
                         @empty
@@ -105,77 +100,4 @@
     </div>
 </div>
 
-<!-- Modal d'assignation de chambre -->
-<div class="modal fade" id="assignRoomModal" tabindex="-1" role="dialog" aria-labelledby="assignRoomModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="assignRoomModalLabel">Assigner une chambre</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="assignRoomForm" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <p>Locataire : <strong id="tenantName"></strong></p>
-                    
-                    <div class="form-group">
-                        <label for="room_id">Sélectionner une chambre</label>
-                        <select class="form-control" id="room_id" name="room_id" required>
-                            <option value="">-- Choisir une chambre --</option>
-                            <!-- Les chambres disponibles seront chargées ici -->
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="start_date">Date de début</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="end_date">Date de fin</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-success">Assigner la chambre</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function() {
-        $('#tenantsTable').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/French.json'
-            },
-            "order": [[0, "asc"]]
-        });
-
-        // Charger les chambres disponibles quand le modal s'ouvre
-        $('#assignRoomModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var tenantId = button.data('tenant-id');
-            var tenantName = button.data('tenant-name');
-            
-            $('#tenantName').text(tenantName);
-            $('#assignRoomForm').attr('action', '/tenants/' + tenantId + '/assign-room');
-            
-            // Charger les chambres disponibles via AJAX
-            $.get('/api/available-rooms', function(rooms) {
-                var select = $('#room_id');
-                select.empty().append('<option value="">-- Choisir une chambre --</option>');
-                rooms.forEach(function(room) {
-                    select.append('<option value="' + room.id + '">' + room.name + ' - ' + room.property.name + '</option>');
-                });
-            }).fail(function() {
-                alert('Erreur lors du chargement des chambres disponibles');
-            });
-        });
-    });
-</script>
 @endsection

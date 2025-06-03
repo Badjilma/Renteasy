@@ -63,7 +63,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/tenants/{tenant}', [TenantController::class, 'show'])->name('tenants.show');
     Route::get('/tenants/{tenant}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
     Route::put('/tenants/{tenant}', [TenantController::class, 'update'])->name('tenants.update');
-    Route::post('/tenants/{tenant}/rooms/{room}/assign', [TenantController::class, 'assignRoom'])->name('tenants.assign.room');
     // Contrats
     Route::get('/contracts', [ContractController::class, 'index']);
     Route::post('/tenants/{tenant}/contracts', [ContractController::class, 'store']);
