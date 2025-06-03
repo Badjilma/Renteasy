@@ -27,8 +27,10 @@ class Room extends Model
     {
         return $this->hasMany(RoomCaracteristic::class);
     }
-    public function rooms()
-    {
-        return $this->belongsToMany(Tenant::class, 'tenant_rooms')->withTimestamps();
-    }
+public function tenants()
+{
+    return $this->belongsToMany(Tenant::class, 'tenant_rooms')
+                ->withPivot('start_date', 'end_date', 'status')
+                ->withTimestamps();
+}
 }

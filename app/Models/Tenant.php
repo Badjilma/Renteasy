@@ -20,8 +20,10 @@ class Tenant extends Model
     {
         return $this->hasMany(MantenanceRequest::class);
     }
-    public function rooms()
-    {
-        return $this->belongsToMany(Room::class, 'tenant_rooms')->withTimestamps();
-    }
+public function rooms()
+{
+    return $this->belongsToMany(Room::class, 'tenant_rooms')
+                ->withPivot('start_date', 'end_date', 'status')
+                ->withTimestamps();
+}
 }

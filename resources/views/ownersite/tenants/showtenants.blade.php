@@ -4,13 +4,13 @@
 <div class="container-fluid">
     <!-- En-tête de page -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ $tenant->name }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">Fiche du locataire</h1>
         <div>
-            <a href="{{ route('tenants.edit', $tenant->id) }}" class="d-none d-sm-inline-block btn btn-warning shadow-sm mr-2">
+            <a href="{{ route('tenants.edit', $tenant->id) }}" class="btn btn-warning shadow-sm">
                 <i class="fas fa-edit fa-sm text-white-50"></i> Modifier
             </a>
-            <a href="{{ route('tenants.all') }}" class="d-none d-sm-inline-block btn btn-secondary shadow-sm">
-                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Retour à la liste
+            <a href="{{ route('tenants.all') }}" class="btn btn-secondary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Retour
             </a>
         </div>
     </div>
@@ -25,278 +25,196 @@
     </div>
     @endif
 
-    @if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    @endif
-
+    <!-- Fiche du locataire -->
     <div class="row">
-        <!-- Informations du locataire -->
-        <div class="col-xl-4 col-md-6 mb-4">
+        <!-- Informations personnelles -->
+        <div class="col-lg-5 mb-4">
             <div class="card shadow h-100">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Informations personnelles</h6>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-user mr-2"></i>Informations personnelles
+                    </h6>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <strong>Nom complet :</strong> {{ $tenant->name }}
+                    <div class="text-center mb-4">
+                        <img class="img-profile rounded-circle" src="https://ui-avatars.com/api/?name={{ urlencode($tenant->name) }}&size=150" alt="Photo profil">
                     </div>
-                    <div class="mb-3">
-                        <strong>Téléphone :</strong> {{ $tenant->phone }}
-                    </div>
-                    <div class="mb-3">
-                        <strong>CNI :</strong> {{ $tenant->cni }}
-                    </div>
-                    @if($tenant->email)
-                    <div class="mb-3">
-                        <strong>Email :</strong> {{ $tenant->email }}
-                    </div>
-                    @endif
-                    @if($tenant->address)
-                    <div class="mb-3">
-                        <strong>Adresse :</strong> {{ $tenant->address }}
-                    </div>
-                    @endif
-                    @if($tenant->emergency_contact)
-                    <div class="mb-3">
-                        <strong>Contact d'urgence :</strong> {{ $tenant->emergency_contact }}
-                        @if($tenant->emergency_phone)
-                            ({{ $tenant->emergency_phone }})
-                        @endif
-                    </div>
-                    @endif
+                    <table class="table table-bordered">
+                        <tr>
+                            <th width="40%">Nom complet</th>
+                            <td>{{ $tenant->name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Téléphone</th>
+                            <td>{{ $tenant->phone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Numéro CNI</th>
+                            <td>{{ $tenant->cni }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date d'enregistrement</th>
+                            <td>{{ $tenant->created_at->format('d/m/Y H:i') }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <!-- Chambres louées -->
-        <div class="col-xl-8 col-md-6 mb-4">
+        <!-- Historique des locations -->
+        <div class="col-lg-7 mb-4">
             <div class="card shadow h-100">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Chambres louées</h6>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-home mr-2"></i>Historique des locations
+                    </h6>
                 </div>
                 <div class="card-body">
                     @if($tenant->rooms->count() > 0)
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Propriété</th>
-                                    <th>Chambre</th>
-                                    <th>Date début</th>
-                                    <th>Date fin</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($tenant->rooms as $room)
-                                <tr>
-                                    <td>{{ $room->property->name }}</td>
-                                    <td>{{ $room->name }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($room->pivot->start_date)->format('d/m/Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($room->pivot->end_date)->format('d/m/Y') }}</td>
-                                    <td>
-                                        @if($room->pivot->status == 'active')
-                                            <span class="badge badge-success">Actif</span>
-                                        @elseif($room->pivot->status == 'terminated')
-                                            <span class="badge badge-danger">Terminé</span>
-                                        @else
-                                            <span class="badge badge-warning">{{ $room->pivot->status }}</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        @foreach($tenant->rooms as $room)
+                            <div class="card mb-3 border-left-primary">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="h5 font-weight-bold text-primary mb-1">
+                                                {{ $room->name }} - {{ $room->property->name ?? 'Propriété inconnue' }}
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="text-xs font-weight-bold text-primary mb-1">
+                                                        <i class="fas fa-calendar-alt mr-1"></i> Période
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        Du <strong>
+                                                            @if(is_object($room->pivot->start_date))
+                                                                {{ $room->pivot->start_date->format('d/m/Y') }}
+                                                            @else
+                                                                {{ \Carbon\Carbon::parse($room->pivot->start_date)->format('d/m/Y') }}
+                                                            @endif
+                                                        </strong>
+                                                        @if($room->pivot->end_date)
+                                                            au <strong>
+                                                                @if(is_object($room->pivot->end_date))
+                                                                    {{ $room->pivot->end_date->format('d/m/Y') }}
+                                                                @else
+                                                                    {{ \Carbon\Carbon::parse($room->pivot->end_date)->format('d/m/Y') }}
+                                                                @endif
+                                                            </strong>
+                                                        @else
+                                                            <em>(en cours)</em>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="text-xs font-weight-bold text-primary mb-1">
+                                                        <i class="fas fa-info-circle mr-1"></i> Statut
+                                                    </div>
+                                                    @php
+                                                        $statusClass = [
+                                                            'active' => 'success',
+                                                            'ended' => 'secondary',
+                                                            'pending' => 'warning'
+                                                        ][$room->pivot->status] ?? 'info';
+                                                    @endphp
+                                                    <span class="badge badge-{{ $statusClass }}">
+                                                        {{ ucfirst($room->pivot->status) }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <a href="{{ route('rooms.show', ['property' => $room->property_id, 'room' => $room->id]) }}" 
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-info-circle"></i> Voir la chambre
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ number_format($room->price, 0, ',', ' ') }} FCFA
+                                            </div>
+                                            <small class="text-muted">/mois</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     @else
-                    <div class="text-center py-4">
-                        <p class="text-muted">Ce locataire n'a pas encore de chambre assignée</p>
-                    </div>
+                        <div class="text-center py-4">
+                            <i class="fas fa-home fa-3x text-gray-300 mb-3"></i>
+                            <p class="h5 text-muted">Ce locataire n'a aucune location enregistrée</p>
+                            <a href="{{ route('tenants.edit', $tenant->id) }}" class="btn btn-primary mt-2">
+                                <i class="fas fa-plus mr-2"></i>Ajouter une location
+                            </a>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Assignation de chambre -->
+    <!-- Demandes de maintenance -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Assigner une chambre</h6>
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-tools mr-2"></i>Demandes de maintenance
+            </h6>
         </div>
         <div class="card-body">
-            <form id="assignRoomForm" action="#" method="POST">
-                @csrf
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="property_id">Sélectionner une propriété</label>
-                            <select class="form-control" id="property_id" name="property_id" required>
-                                <option value="">-- Choisir une propriété --</option>
-                                <!-- Les propriétés seront chargées dynamiquement -->
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="room_id">Sélectionner une chambre</label>
-                            <select class="form-control" id="room_id" name="room_id" required disabled>
-                                <option value="">-- Choisir une chambre --</option>
-                                <!-- Les chambres seront chargées dynamiquement -->
-                            </select>
-                        </div>
-                    </div>
+            @if($tenant->maintenanceRequests->count() > 0)
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Chambre</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($tenant->maintenanceRequests as $request)
+                                <tr>
+                                    <td>{{ $request->created_at->format('d/m/Y H:i') }}</td>
+                                    <td>{{ Str::limit($request->description, 50) }}</td>
+                                    <td>
+                                        @if($request->room)
+                                            {{ $request->room->name }}
+                                        @else
+                                            <span class="text-muted">N/A</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @php
+                                            $statusColors = [
+                                                'pending' => 'warning',
+                                                'in_progress' => 'info',
+                                                'completed' => 'success',
+                                                'rejected' => 'danger'
+                                            ];
+                                        @endphp
+                                        <span class="badge badge-{{ $statusColors[$request->status] ?? 'secondary' }}">
+                                            {{ ucfirst(str_replace('_', ' ', $request->status)) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('maintenance.show', $request->id) }}" 
+                                           class="btn btn-sm btn-info" title="Détails">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="start_date">Date de début</label>
-                            <input type="date" class="form-control" id="start_date" name="start_date" required>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="end_date">Date de fin</label>
-                            <input type="date" class="form-control" id="end_date" name="end_date" required>
-                        </div>
-                    </div>
+            @else
+                <div class="text-center py-4">
+                    <i class="fas fa-tools fa-3x text-gray-300 mb-3"></i>
+                    <p class="h5 text-muted">Aucune demande de maintenance enregistrée</p>
                 </div>
-
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary" disabled id="assignButton">
-                        <i class="fas fa-link mr-2"></i> Assigner la chambre
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Contrats et maintenance (optionnel, à développer plus tard) -->
-    <div class="row">
-        <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Contrat</h6>
-                </div>
-                <div class="card-body">
-                    @if($tenant->contract)
-                        <!-- Afficher les détails du contrat -->
-                    @else
-                        <div class="text-center py-4">
-                            <p class="text-muted">Aucun contrat associé à ce locataire</p>
-                            <button class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-plus mr-1"></i> Créer un contrat
-                            </button>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Demandes de maintenance</h6>
-                </div>
-                <div class="card-body">
-                    @if($tenant->maintenanceRequests && $tenant->maintenanceRequests->count() > 0)
-                        <!-- Afficher les demandes de maintenance -->
-                    @else
-                        <div class="text-center py-4">
-                            <p class="text-muted">Aucune demande de maintenance</p>
-                        </div>
-                    @endif
-                </div>
-            </div>
+            @endif
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        // Charger les propriétés
-        $.ajax({
-            url: '/api/properties',
-            type: 'GET',
-            success: function(data) {
-                let options = '<option value="">-- Choisir une propriété --</option>';
-                data.forEach(function(property) {
-                    options += `<option value="${property.id}">${property.name}</option>`;
-                });
-                $('#property_id').html(options);
-            },
-            error: function(xhr) {
-                console.error('Erreur lors du chargement des propriétés:', xhr);
-                alert('Impossible de charger les propriétés. Veuillez réessayer.');
-            }
-        });
-
-        // Quand une propriété est sélectionnée, charger ses chambres disponibles
-        $('#property_id').change(function() {
-            const propertyId = $(this).val();
-            if (propertyId) {
-                $.ajax({
-                    url: `/api/properties/${propertyId}/available-rooms`,
-                    type: 'GET',
-                    success: function(data) {
-                        let options = '<option value="">-- Choisir une chambre --</option>';
-                        if (data.length === 0) {
-                            options = '<option value="">Aucune chambre disponible</option>';
-                            $('#room_id').html(options).prop('disabled', true);
-                            $('#assignButton').prop('disabled', true);
-                        } else {
-                            data.forEach(function(room) {
-                                options += `<option value="${room.id}">${room.name} - ${room.price} Fcfa/mois</option>`;
-                            });
-                            $('#room_id').html(options).prop('disabled', false);
-                        }
-                    },
-                    error: function(xhr) {
-                        console.error('Erreur lors du chargement des chambres:', xhr);
-                        alert('Impossible de charger les chambres. Veuillez réessayer.');
-                    }
-                });
-            } else {
-                $('#room_id').html('<option value="">-- Choisir une chambre --</option>').prop('disabled', true);
-                $('#assignButton').prop('disabled', true);
-            }
-        });
-
-        // Activer le bouton quand une chambre est sélectionnée
-        $('#room_id').change(function() {
-            const roomId = $(this).val();
-            if (roomId) {
-                $('#assignButton').prop('disabled', false);
-                // Mettre à jour l'action du formulaire
-                const formAction = `{{ route('tenants.assign.room', ['tenant' => $tenant->id, 'room' => '']) }}/${roomId}/assign`;
-                $('#assignRoomForm').attr('action', formAction);
-            } else {
-                $('#assignButton').prop('disabled', true);
-            }
-        });
-
-        // Validation des dates
-        $('#start_date').change(function() {
-            $('#end_date').val(''); // Réinitialiser la date de fin si la date de début change
-        });
-
-        $('#end_date').change(function() {
-            const startDate = new Date($('#start_date').val());
-            const endDate = new Date($(this).val());
-
-            if (endDate <= startDate) {
-                alert('La date de fin doit être postérieure à la date de début');
-                $(this).val('');
-            }
-        });
-    });
-</script>
 @endsection

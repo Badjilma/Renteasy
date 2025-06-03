@@ -13,4 +13,9 @@ class TenantRoom extends Model
         'end_date',
         'status'
     ];
+
+     protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
 }

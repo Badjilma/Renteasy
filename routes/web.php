@@ -63,6 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/tenants/{tenant}', [TenantController::class, 'show'])->name('tenants.show');
     Route::get('/tenants/{tenant}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
     Route::put('/tenants/{tenant}', [TenantController::class, 'update'])->name('tenants.update');
+    // Routes pour la gestion des locataires
+    Route::post('tenants/{tenant}/assign-room', [TenantController::class, 'assignRoom'])->name('tenants.assign-room');
+    Route::put('tenants/end-rental/{pivotId}', [TenantController::class, 'endRental'])->name('tenants.end-rental');
+
     // Contrats
     Route::get('/contracts', [ContractController::class, 'index']);
     Route::post('/tenants/{tenant}/contracts', [ContractController::class, 'store']);
