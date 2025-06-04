@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PropertyController;
@@ -14,9 +15,7 @@ Route::get('/', function () {
 
 
 /////////////les routes pour le site de owner//////////////////
-Route::get('/indexOwner', function () {
-    return view('ownersite.index');
-})->name('accueilindex');
+Route::get('/indexOwner', [DashboardController::class, 'index'])->name('accueilindex');
 
 
 // Routes pour afficher les formulaires

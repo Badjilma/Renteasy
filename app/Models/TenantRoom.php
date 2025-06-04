@@ -18,4 +18,19 @@ class TenantRoom extends Model
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];
+    /**
+     * Relation vers le locataire
+     */
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    /**
+     * Relation vers la chambre
+     */
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }
