@@ -12,8 +12,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Informations du contrat</h6>
         </div>
         <div class="card-body">
-        <form action="{{ route('contracts.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+            <form action="{{ route('contracts.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
                 <!-- Messages d'erreur -->
                 @if ($errors->any())
@@ -27,15 +27,15 @@
                 @endif
 
                 <!-- Sélection du locataire -->
-              <div class="form-group">
-        <label for="tenant_id">Locataire <span class="text-danger">*</span></label>
-        <select class="form-control" id="tenant_id" name="tenant_id" required>
-            <option value="">Sélectionner un locataire</option>
-            @foreach($tenants as $tenant)
-                <option value="{{ $tenant->id }}">{{ $tenant->name }} ({{ $tenant->phone }})</option>
-            @endforeach
-        </select>
-    </div>
+                <div class="form-group">
+                    <label for="tenant_id">Locataire <span class="text-danger">*</span></label>
+                    <select class="form-control" id="tenant_id" name="tenant_id" required>
+                        <option value="">Sélectionner un locataire</option>
+                        @foreach($tenants as $tenant)
+                            <option value="{{ $tenant->id }}">{{ $tenant->name }} ({{ $tenant->phone }})</option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <!-- Date de début -->
                 <div class="form-group">
@@ -46,9 +46,35 @@
 
                 <!-- Date de fin -->
                 <div class="form-group">
-                    <label for="end_date">Date de fin <span class="text-danger">*</span></label>
+                    <label for="end_date">Date de fin <small class="text-muted">(optionnel)</small></label>
                     <input type="date" class="form-control" id="end_date" name="end_date"
-                           value="{{ old('end_date') }}" required>
+                           value="{{ old('end_date') }}">
+                    <small class="form-text text-muted">
+                        Laissez vide pour un contrat à durée indéterminée
+                    </small>
+                </div>
+
+                <!-- Statut du contrat -->
+                <div class="form-group">
+                    <label for="status">Statut du contrat</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="active" {{ old('status', 'active') == 'active' ? 'selected' : '' }}>Actif</option>
+                        <option value="terminated" {{ old('status') == 'terminated' ? 'selected' : '' }}>Terminé</option>
+                        <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expiré</option>
+                    </select>
+                    <small class="form-text text-muted">
+                        Généralement "Actif" pour un nouveau contrat
+                    </small>
+                </div>
+
+                <!-- Type de contrat -->
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="indefinite_contract">
+                        <label class="form-check-label" for="indefinite_contract">
+                            Contrat à durée indéterminée
+                        </label>
+                    </div>
                 </div>
 
                 <!-- Document du contrat -->
@@ -87,25 +113,46 @@
             }
         });
 
-        // Validation des dates
-        const startDateInput = document.getElementById('start_date');
+        // Gestion du contrat à durée indéterminée
+        const indefiniteCheckbox = document.getElementById('indefinite_contract');
         const endDateInput = document.getElementById('end_date');
 
-        startDateInput.addEventListener('change', function() {
-            if (startDateInput.value && endDateInput.value) {
-                if (new Date(startDateInput.value) > new Date(endDateInput.value)) {
-                    alert('La date de début doit être antérieure à la date de fin');
-                    startDateInput.value = '';
-                }
+        indefiniteCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                endDateInput.value = '';
+                endDateInput.disabled = true;
+                endDateInput.style.backgroundColor = '#f8f9fa';
+            } else {
+                endDateInput.disabled = false;
+                endDateInput.style.backgroundColor = '';
             }
         });
 
-        endDateInput.addEventListener('change', function() {
-            if (startDateInput.value && endDateInput.value) {
-                if (new Date(startDateInput.value) > new Date(endDateInput.value)) {
+        // Validation des dates
+        const startDateInput = document.getElementById('start_date');
+
+        function validateDates() {
+            if (startDateInput.value && endDateInput.value && !endDateInput.disabled) {
+                if (new Date(startDateInput.value) >= new Date(endDateInput.value)) {
                     alert('La date de fin doit être postérieure à la date de début');
-                    endDateInput.value = '';
+                    return false;
                 }
+            }
+            return true;
+        }
+
+        startDateInput.addEventListener('change', function() {
+            validateDates();
+        });
+
+        endDateInput.addEventListener('change', function() {
+            validateDates();
+        });
+
+        // Validation du formulaire avant soumission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!validateDates()) {
+                e.preventDefault();
             }
         });
     });

@@ -10,6 +10,7 @@ class Contract extends Model
         'document',
         'start_date',
         'end_date',
+        'status',
         'tenant_id'
     ];
 

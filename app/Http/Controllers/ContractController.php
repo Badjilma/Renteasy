@@ -27,7 +27,8 @@ class ContractController extends Controller
         'tenant_id' => 'required|exists:tenants,id',
         'document' => 'required|file|mimes:pdf',
         'start_date' => 'required|date',
-        'end_date' => 'required|date|after:start_date',
+        'end_date' => 'nullable|date|after:start_date',
+        'status' => 'sometimes|in:active,terminated,expired',
     ]);
 
     $tenant = Tenant::findOrFail($request->tenant_id);
@@ -37,7 +38,7 @@ class ContractController extends Controller
         'document' => $documentPath,
         'start_date' => $request->start_date,
         'end_date' => $request->end_date,
-        'status' => 'active'
+        'status' => $request->status ?? 'active',
     ]);
 
     return redirect()->route('contracts.all')->with('success', 'Contrat créé avec succès');
@@ -59,8 +60,8 @@ class ContractController extends Controller
         $request->validate([
             'document' => 'sometimes|file|mimes:pdf',
             'start_date' => 'sometimes|date',
-            'end_date' => 'sometimes|date|after:start_date',
-            'status' => 'sometimes|in:active,terminated,expired'
+            'end_date' => 'nullable|date|after:start_date',
+            'status' => 'sometimes|in:active,terminated,expired',
         ]);
 
         if ($request->hasFile('document')) {
@@ -87,17 +88,7 @@ class ContractController extends Controller
         return redirect()->route('contracts.all')->with('success', 'Contrat supprimé avec succès');
     }
 
-    /**
-     * Télécharger le document du contrat
-     */
-    // public function download(Contract $contract)
-    // {
-    //     if (!$contract->document || !Storage::disk('public')->exists($contract->document)) {
-    //         return redirect()->back()->with('error', 'Document non trouvé');
-    //     }
 
-    //     return Storage::disk('public')->download($contract->document, 'contrat_' . $contract->tenant->name . '.pdf');
-    // }
 
     /**
      * Terminer un contrat
