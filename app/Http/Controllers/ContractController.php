@@ -9,33 +9,49 @@ use Illuminate\Support\Facades\Storage;
 
 class ContractController extends Controller
 {
-    public function index()
+     public function index()
     {
         $contracts = Contract::with(['tenant', 'payments'])->get();
-        return response()->json($contracts);
+        return view('ownersite.contracts.allcontracts', compact('contracts'));
     }
 
-    public function store(Request $request, Tenant $tenant)
+    public function create()
     {
-        $request->validate([
-            'document' => 'required|file|mimes:pdf',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-        ]);
+       $tenants = Tenant::all();
+    return view('ownersite.contracts.addcontracts', compact('tenants'));
+    }
 
-        $documentPath = $request->file('document')->store('contracts', 'public');
+   public function store(Request $request)
+{
+    $request->validate([
+        'tenant_id' => 'required|exists:tenants,id',
+        'document' => 'required|file|mimes:pdf',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after:start_date',
+    ]);
 
-        $contract = $tenant->contract()->create([
-            'document' => $documentPath,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => 'active'
-        ]);
+    $tenant = Tenant::findOrFail($request->tenant_id);
+    $documentPath = $request->file('document')->store('contracts', 'public');
 
-        return response()->json([
-            'message' => 'Contrat créé avec succès',
-            'contract' => $contract
-        ], 201);
+    $contract = $tenant->contracts()->create([
+        'document' => $documentPath,
+        'start_date' => $request->start_date,
+        'end_date' => $request->end_date,
+        'status' => 'active'
+    ]);
+
+    return redirect()->route('contracts.all')->with('success', 'Contrat créé avec succès');
+}
+
+    public function show(Contract $contract)
+    {
+        return view('ownersite.contracts.showcontract', compact('contract'));
+    }
+
+    public function edit(Contract $contract)
+    {
+        $tenants = Tenant::all();
+        return view('ownersite.contracts.editcontracts', compact('contract', 'tenants'));
     }
 
     public function update(Request $request, Contract $contract)
@@ -48,15 +64,51 @@ class ContractController extends Controller
         ]);
 
         if ($request->hasFile('document')) {
+            // Supprimer l'ancien document
             Storage::disk('public')->delete($contract->document);
             $contract->document = $request->file('document')->store('contracts', 'public');
         }
 
         $contract->update($request->except('document'));
 
-        return response()->json([
-            'message' => 'Contrat mis à jour avec succès',
-            'contract' => $contract
+        return redirect()->route('contracts.show', $contract)->with('success', 'Contrat mis à jour avec succès');
+    }
+
+    public function destroy(Contract $contract)
+    {
+        // Supprimer le fichier PDF du stockage
+        if ($contract->document) {
+            Storage::disk('public')->delete($contract->document);
+        }
+
+        // Supprimer le contrat de la base de données
+        $contract->delete();
+
+        return redirect()->route('contracts.all')->with('success', 'Contrat supprimé avec succès');
+    }
+
+    /**
+     * Télécharger le document du contrat
+     */
+    // public function download(Contract $contract)
+    // {
+    //     if (!$contract->document || !Storage::disk('public')->exists($contract->document)) {
+    //         return redirect()->back()->with('error', 'Document non trouvé');
+    //     }
+
+    //     return Storage::disk('public')->download($contract->document, 'contrat_' . $contract->tenant->name . '.pdf');
+    // }
+
+    /**
+     * Terminer un contrat
+     */
+    public function terminate(Contract $contract)
+    {
+        $contract->update([
+            'status' => 'terminated',
+            'end_date' => now()
         ]);
+
+        return redirect()->back()->with('success', 'Contrat terminé avec succès');
     }
 }

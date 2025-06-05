@@ -21,4 +21,8 @@ class Contract extends Model
     {
         return $this->hasMany(Payment::class);
     }
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
 }

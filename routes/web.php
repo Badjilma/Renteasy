@@ -66,10 +66,16 @@ Route::middleware('auth')->group(function () {
     Route::post('tenants/{tenant}/assign-room', [TenantController::class, 'assignRoom'])->name('tenants.assign-room');
     Route::put('tenants/end-rental/{pivotId}', [TenantController::class, 'endRental'])->name('tenants.end-rental');
 
-    // Contrats
-    Route::get('/contracts', [ContractController::class, 'index']);
-    Route::post('/tenants/{tenant}/contracts', [ContractController::class, 'store']);
-    Route::put('/contracts/{contract}', [ContractController::class, 'update']);
+// Contrats
+Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.all');
+Route::get('/contracts/create', [ContractController::class, 'create'])->name('contracts.create');
+Route::post('/contractstore', [ContractController::class, 'store'])->name('contracts.store');
+Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contracts.show');
+Route::get('/contracts/{contract}/edit', [ContractController::class, 'edit'])->name('contracts.edit');
+Route::put('/contracts/{contract}', [ContractController::class, 'update'])->name('contracts.update');
+Route::delete('/contracts/{contract}', [ContractController::class, 'destroy'])->name('contracts.destroy');
+// Route::get('/contracts/{contract}/download', [ContractController::class, 'download'])->name('contracts.download');
+Route::post('/contracts/{contract}/terminate', [ContractController::class, 'terminate'])->name('contracts.terminate');
 
     // Demandes de maintenance
     Route::get('/maintenance-requests', [MaintenanceRequestController::class, 'index']);
