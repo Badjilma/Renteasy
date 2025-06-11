@@ -27,13 +27,12 @@ class PublicPropertyController extends Controller
         return $properties;
     }
 
-    // Affichage détaillé d'une propriété spécifique
-    // public function show($id)
-    // {
-    //     $property = Property::with(['rules', 'rooms', 'secondaryPhotos'])
-    //         ->where('availability', true)
-    //         ->findOrFail($id);
+   // Affichage détaillé d'une propriété spécifique
+    public function show($id)
+    {
+        $property = Property::with(['rules', 'rooms', 'secondaryPhotos', 'user'])
+            ->findOrFail($id);
 
-    //     return view('public.property-details', compact('property'));
-    // }
+        return view('property_details', compact('property'));
+    }
 }

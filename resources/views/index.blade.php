@@ -74,7 +74,7 @@
         <div class="owl-carousel nonloop-block-13 mb-5">
             @forelse($properties as $property)
             <div class="property">
-                <a href="#">
+                <a href="{{ route('public.property.show', $property->id) }}">
                     <img src="{{ asset('storage/'.$property->principal_photo) }}" alt="{{ $property->name }}" class="img-fluid">
                 </a>
                 <div class="prop-details p-3">
@@ -86,7 +86,7 @@
                     </div>
                     <div>{{ $property->address }}</div>
                     <div class="mt-2">
-                        <a href="#" class="btn btn-primary btn-sm">Visiter</a>
+                        <a href="{{ route('public.property.show', $property->id) }}" class="btn btn-primary btn-sm">Visiter</a>
                     </div>
                 </div>
             </div>

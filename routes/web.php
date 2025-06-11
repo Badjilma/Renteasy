@@ -11,11 +11,11 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Routes publiques pour l'affichage des propriétés
 Route::get('/propertiespublic', [PublicPropertyController::class, 'index'])->name('public.properties.all');
-// Route::get('/property/{id}', [PublicPropertyController::class, 'show'])->name('public.property.show');
+Route::get('/property/{id}', [PublicPropertyController::class, 'show'])->name('public.property.show');
 /////////////les routes pour le site de owner//////////////////
 Route::get('/indexOwner', [DashboardController::class, 'index'])->name('accueilindex');
 
