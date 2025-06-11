@@ -11,7 +11,7 @@
         <div class="row align-items-center justify-content-center">
             <div class="col-md-6 mt-lg-5 text-center">
                 <h1>Mettez à profit votre propriété dans le numérique</h1>
-                <p class="mb-5">Vous avez des soucis pour gérer vos locataires de vos propriétés, les paiements, les règles de la maison, 
+                <p class="mb-5">Vous avez des soucis pour gérer vos locataires de vos propriétés, les paiements, les règles de la maison,
                     les contrats, des maintenances de la maison...? Vous êtes au bon endroit!!!
                 </p>
 
@@ -62,81 +62,47 @@
     <div class="container">
         <div class="row mb-5 align-items-center">
             <div class="col-md-7 text-left">
-                <h2 class="section-title mb-3">Properties</h2>
+                <h2 class="section-title mb-3">Propriétés</h2>
             </div>
             <div class="col-md-5 text-left text-md-right">
                 <div class="custom-nav1">
-                    <a href="#" class="custom-prev1">Previous</a><span class="mx-3">/</span><a href="#" class="custom-next1">Next</a>
+                    <a href="#" class="custom-prev1">Précédent</a><span class="mx-3">/</span><a href="#" class="custom-next1">Suivant</a>
                 </div>
             </div>
         </div>
 
         <div class="owl-carousel nonloop-block-13 mb-5">
-
+            @forelse($properties as $property)
             <div class="property">
-                <a href="property-single.html">
-                    <img src="images/property_1.jpg" alt="Image" class="img-fluid">
+                <a href="#">
+                    <img src="{{ asset('storage/'.$property->principal_photo) }}" alt="{{ $property->name }}" class="img-fluid">
                 </a>
                 <div class="prop-details p-3">
-                    <div><strong class="price">$3,400,000</strong></div>
+                    <div><strong class="property-name">{{ $property->name }}</strong></div>
                     <div class="mb-2 d-flex justify-content-between">
-                        <span class="w border-r">6 beds</span>
-                        <span class="w border-r">4 baths</span>
-                        <span class="w">4,250 sqft.</span>
+                        <span class="w border-r">{{ $property->rooms->count() }} chambres</span>
+                        <span class="w border-r">{{ $property->availability ? 'Disponible' : 'Occupée' }}</span>
+                        <span class="w">{{ $property->rules->count() }} règles</span>
                     </div>
-                    <div>480 12th, Unit 14, San Francisco, CA</div>
+                    <div>{{ $property->address }}</div>
+                    <div class="mt-2">
+                        <a href="#" class="btn btn-primary btn-sm">Visiter</a>
+                    </div>
                 </div>
             </div>
-
+            @empty
             <div class="property">
-                <a href="property-single.html">
-                    <img src="images/property_2.jpg" alt="Image" class="img-fluid">
-                </a>
-                <div class="prop-details p-3">
-                    <div><strong class="price">$3,400,000</strong></div>
-                    <div class="mb-2 d-flex justify-content-between">
-                        <span class="w border-r">6 beds</span>
-                        <span class="w border-r">4 baths</span>
-                        <span class="w">4,250 sqft.</span>
-                    </div>
-                    <div>480 12th, Unit 14, San Francisco, CA</div>
+                <div class="prop-details p-3 text-center">
+                    <div><strong>Aucune propriété disponible</strong></div>
+                    <div>Revenez plus tard pour découvrir nos propriétés</div>
                 </div>
             </div>
-
-            <div class="property">
-                <a href="property-single.html">
-                    <img src="images/property_3.jpg" alt="Image" class="img-fluid">
-                </a>
-                <div class="prop-details p-3">
-                    <div><strong class="price">$3,400,000</strong></div>
-                    <div class="mb-2 d-flex justify-content-between">
-                        <span class="w border-r">6 beds</span>
-                        <span class="w border-r">4 baths</span>
-                        <span class="w">4,250 sqft.</span>
-                    </div>
-                    <div>480 12th, Unit 14, San Francisco, CA</div>
-                </div>
-            </div>
-
-            <div class="property">
-                <a href="property-single.html">
-                    <img src="images/property_4.jpg" alt="Image" class="img-fluid">
-                </a>
-                <div class="prop-details p-3">
-                    <div><strong class="price">$3,400,000</strong></div>
-                    <div class="mb-2 d-flex justify-content-between">
-                        <span class="w border-r">6 beds</span>
-                        <span class="w border-r">4 baths</span>
-                        <span class="w">4,250 sqft.</span>
-                    </div>
-                    <div>480 12th, Unit 14, San Francisco, CA</div>
-                </div>
-            </div>
-
+            @endforelse
         </div>
+
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <a href="listings.html" class="btn btn-primary btn-block">View All Property Listings</a>
+                <a href="{{ route('public.properties.all') }}" class="btn btn-primary btn-block">Voir tous les propriétés disponibles</a>
             </div>
         </div>
     </div>

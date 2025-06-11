@@ -12,7 +12,7 @@ class Tenant extends Model
         'cni'
     ];
 
-    public function contracts()
+    public function contract()
     {
         return $this->hasOne(Contract::class);
     }
