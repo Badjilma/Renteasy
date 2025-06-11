@@ -94,9 +94,6 @@ Route::post('/contracts/{contract}/terminate', [ContractController::class, 'term
     // Demandes de maintenance
     Route::get('/maintenance-requests', [MaintenanceRequestController::class, 'index']);
     Route::post('/tenants/{tenant}/maintenance-requests', [MaintenanceRequestController::class, 'store']);
-    // Route pour la mise à jour des demandes de maintenance (commentée dans votre contrôleur)
-    // Route::put('/maintenance-requests/{maintenanceRequest}', [MaintenanceRequestController::class, 'update']);
-
 
     // Ajouter ces routes dans votre fichier routes/api.php
     Route::get('/properties', function () {

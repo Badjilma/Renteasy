@@ -31,22 +31,4 @@ class MaintenanceRequestController extends Controller
             'maintenance_request' => $maintenanceRequest
         ], 201);
     }
-
-    // public function update(Request $request, MantenanceRequest $maintenanceRequest)
-    // {
-    //     $request->validate([
-    //         'status' => 'required|in:pending,in_progress,completed,cancelled',
-    //         'resolution_notes' => 'sometimes|string',
-    //     ]);
-
-    //     $maintenanceRequest->update([
-    //         'status' => $request->status,
-    //         'resolution_notes' => $request->resolution_notes,
-    //     ]);
-
-    //     return response()->json([
-    //         'message' => 'Demande de maintenance mise à jour',
-    //         'maintenance_request' => $maintenanceRequest
-    //     ]);
-    // }
 }

@@ -13,7 +13,7 @@
                     <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                         <li><a href="{{ route('home') }}" class="nav-link">Accueil</a></li>
                         <li><a href="{{ route('public.properties.all') }}" class="nav-link">Propriétés</a></li>
-                        <li><a href="#news-section" class="nav-link">Notifications</a></li>
+                        <li><a href="#news-section" class="nav-link">Maintenance</a></li>
                         <li><a href="#contact-section" class="nav-link">Contact</a></li>
                     </ul>
                 </nav>
