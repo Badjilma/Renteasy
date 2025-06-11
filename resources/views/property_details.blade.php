@@ -4,8 +4,6 @@
 
 @section('content')
 <div class="site-blocks-cover overlay" style="background-image: url('template/images/hero_1.jpg');" data-aos="fade" id="home-section">
-
-
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-md-6 mt-lg-5 text-center">
@@ -13,13 +11,12 @@
                 <p class="mb-5">Vous avez des soucis pour gérer vos locataires de vos propriétés, les paiements, les règles de la maison,
                     les contrats, des maintenances de la maison...? Vous êtes au bon endroit!!!
                 </p>
-
             </div>
         </div>
     </div>
-
     <a href="#howitworks-section" class="smoothscroll arrow-down"><span class="icon-arrow_downward"></span></a>
 </div>
+
 <div class="site-section" id="property-details">
     <div class="container">
         <div class="row">
@@ -61,15 +58,60 @@
                     @if($property->rooms->count() > 0)
                     <div class="mb-4">
                         <h5 class="text-black mb-3">Chambres disponibles</h5>
+                        <div class="bg-light p-3 rounded mb-3">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <h4 class="text-primary mb-1">{{ $property->rooms->count() }}</h4>
+                                    <small class="text-muted">Total</small>
+                                </div>
+                                <div class="col-4">
+                                    <h4 class="text-success mb-1">{{ $property->rooms->where('is_rented', false)->count() }}</h4>
+                                    <small class="text-muted">Disponibles</small>
+                                </div>
+                                <div class="col-4">
+                                    <h4 class="text-danger mb-1">{{ $property->rooms->where('is_rented', true)->count() }}</h4>
+                                    <small class="text-muted">Occupées</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aperçu des chambres -->
                         <div class="row">
-                            @foreach($property->rooms as $room)
+                            @foreach($property->rooms->take(4) as $room)
                             <div class="col-md-6 mb-2">
-                                <div class="border p-2 rounded">
-                                    <small class="text-muted">Chambre {{ $loop->iteration }}</small>
-                                    <!-- Ajoutez ici d'autres détails de chambre si disponibles -->
+                                <div class="border p-2 rounded d-flex align-items-center">
+                                    <img src="{{ asset('storage/'.$room->principal_photo) }}"
+                                         alt="{{ $room->name }}"
+                                         class="rounded mr-2"
+                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <small class="text-dark font-weight-bold d-block">{{ $room->name }}</small>
+                                        <small class="text-muted">{{ number_format($room->price) }} FCFA/mois</small>
+                                    </div>
+                                    <span class="badge {{ $room->is_rented ? 'badge-danger' : 'badge-success' }} badge-sm">
+                                        {{ $room->is_rented ? 'Occupée' : 'Libre' }}
+                                    </span>
                                 </div>
                             </div>
                             @endforeach
+                        </div>
+
+                        @if($property->rooms->count() > 4)
+                        <small class="text-muted">et {{ $property->rooms->count() - 4 }} autres chambres...</small>
+                        @endif
+
+                        <!-- Bouton pour voir toutes les chambres -->
+                        <div class="mt-3">
+                            <a href="{{ route('public.rooms.index', $property->id) }}" class="btn btn-outline-primary btn-block">
+                                <i class="icon-eye"></i> Voir toutes les chambres ({{ $property->rooms->count() }})
+                            </a>
+                        </div>
+                    </div>
+                    @else
+                    <div class="mb-4">
+                        <div class="bg-light p-3 rounded text-center">
+                            <i class="icon-home text-muted mb-2" style="font-size: 2rem;"></i>
+                            <p class="text-muted mb-0">Aucune chambre enregistrée pour cette propriété</p>
                         </div>
                     </div>
                     @endif
@@ -141,4 +183,11 @@
         </div>
     </div>
 </div>
+
+<style>
+.badge-sm {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+}
+</style>
 @endsection
