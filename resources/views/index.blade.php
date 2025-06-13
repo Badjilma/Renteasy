@@ -233,52 +233,45 @@
     </div>
 </section> --}}
 
-
+{{-- A propos --}}
 <section class="site-section" id="about-section">
     <div class="container">
-
         <div class="row">
             <div class="col-lg-6">
-
                 <div class="owl-carousel slide-one-item-alt">
-                    <img src="images/property_1.jpg" alt="Image" class="img-fluid">
-                    <img src="images/property_2.jpg" alt="Image" class="img-fluid">
-                    <img src="images/property_3.jpg" alt="Image" class="img-fluid">
-                    <img src="images/property_4.jpg" alt="Image" class="img-fluid">
+                    <img src="./template/images/property_1.jpg" alt="Image" class="img-fluid">
+                    <img src="./template/images/property_2.jpg" alt="Image" class="img-fluid">
+                    <img src="./template/images/property_3.jpg" alt="Image" class="img-fluid">
+                    <img src="./template/images/property_4.jpg" alt="Image" class="img-fluid">
                 </div>
                 <div class="custom-direction">
-                    <a href="#" class="custom-prev">Prev</a><a href="#" class="custom-next">Next</a>
+                    <a href="#" class="custom-prev">Précédent</a><a href="#" class="custom-next">Suivant</a>
                 </div>
-
             </div>
             <div class="col-lg-5 ml-auto">
-
-                <h2 class="section-title mb-3">We Are The Best RealEstate Company</h2>
-                <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                <p>Est qui eos quasi ratione nostrum excepturi id recusandae fugit omnis ullam pariatur itaque nisi voluptas impedit Quo suscipit omnis iste velit maxime.</p>
-
+                <h2 class="section-title mb-3">RentEasy - La Meilleure Plateforme de Location Immobilière</h2>
+                <p class="lead">Trouvez votre logement idéal en toute simplicité avec RentEasy.</p>
+                <p>RentEasy révolutionne la recherche de logements en connectant directement locataires et propriétaires. Notre plateforme moderne offre une expérience fluide et sécurisée pour tous vos besoins de location immobilière.</p>
                 <ul class="list-unstyled ul-check success">
-                    <li>Placeat maxime animi minus</li>
-                    <li>Dolore qui placeat maxime</li>
-                    <li>Consectetur adipisicing</li>
-                    <li>Lorem ipsum dolor</li>
-                    <li>Placeat molestias animi</li>
+                    <li>Recherche avancée et personnalisée</li>
+                    <li>Contact direct avec les propriétaires</li>
+                    <li>Visites virtuelles disponibles</li>
+                    <li>Processus de location simplifié</li>
+                    <li>Support client dédié</li>
                 </ul>
-
-                <p><a href="#" class="btn btn-primary mr-2 mb-2">Learn More</a></p>
-
+                <p><a href="#services-section" class="btn btn-primary mr-2 mb-2">En Savoir Plus</a></p>
             </div>
         </div>
     </div>
 </section>
+{{-- A propos --}}
 
-
-
+{{-- services --}}
 <section class="site-section border-bottom bg-light" id="services-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-12 text-center">
-                <h2 class="section-title mb-3">Services</h2>
+                <h2 class="section-title mb-3">Nos Services</h2>
             </div>
         </div>
         <div class="row align-items-stretch">
@@ -286,9 +279,9 @@
                 <div class="unit-4 d-flex">
                     <div class="unit-4-icon mr-4"><span class="text-primary flaticon-house"></span></div>
                     <div>
-                        <h3>Search Property</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-                        <p><a href="#">Learn More</a></p>
+                        <h3>Recherche de Propriétés</h3>
+                        <p>Explorez notre large catalogue de propriétés avec photos détaillées, informations complètes sur chaque chambre et caractéristiques. Contactez directement les propriétaires pour organiser une visite.</p>
+                        <p><a href="#">En savoir plus</a></p>
                     </div>
                 </div>
             </div>
@@ -296,9 +289,9 @@
                 <div class="unit-4 d-flex">
                     <div class="unit-4-icon mr-4"><span class="text-primary flaticon-coin"></span></div>
                     <div>
-                        <h3>Buy Property</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-                        <p><a href="#">Learn More</a></p>
+                        <h3>Gestion des Locations</h3>
+                        <p>Une fois le contrat signé, les propriétaires peuvent facilement ajouter et gérer leurs locations depuis leur tableau de bord personnalisé. Suivi simplifié des paiements et des locataires.</p>
+                        <p><a href="#">En savoir plus</a></p>
                     </div>
                 </div>
             </div>
@@ -306,21 +299,20 @@
                 <div class="unit-4 d-flex">
                     <div class="unit-4-icon mr-4"><span class="text-primary flaticon-home"></span></div>
                     <div>
-                        <h3>Invest a Home</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-                        <p><a href="#">Learn More</a></p>
+                        <h3>Visite Virtuelle</h3>
+                        <p>Visitez les propriétés depuis chez vous grâce à nos visites virtuelles détaillées. Découvrez chaque pièce, chaque chambre avec des images haute qualité et des informations précises.</p>
+                        <p><a href="#">En savoir plus</a></p>
                     </div>
                 </div>
             </div>
-
 
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="300">
                 <div class="unit-4 d-flex">
                     <div class="unit-4-icon mr-4"><span class="text-primary flaticon-flat"></span></div>
                     <div>
-                        <h3>Post Properties</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-                        <p><a href="#">Learn More</a></p>
+                        <h3>Publication de Propriétés</h3>
+                        <p>Propriétaires, publiez facilement vos biens immobiliers avec photos, descriptions détaillées de chaque chambre et informations de contact pour attirer les meilleurs locataires.</p>
+                        <p><a href="#">En savoir plus</a></p>
                     </div>
                 </div>
             </div>
@@ -328,9 +320,9 @@
                 <div class="unit-4 d-flex">
                     <div class="unit-4-icon mr-4"><span class="text-primary flaticon-location"></span></div>
                     <div>
-                        <h3>Property Locator</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-                        <p><a href="#">Learn More</a></p>
+                        <h3>Demandes de Maintenance</h3>
+                        <p>Les locataires peuvent soumettre leurs demandes de maintenance directement via la plateforme. Les propriétaires reçoivent instantanément les notifications pour une intervention rapide.</p>
+                        <p><a href="#">En savoir plus</a></p>
                     </div>
                 </div>
             </div>
@@ -338,9 +330,9 @@
                 <div class="unit-4 d-flex">
                     <div class="unit-4-icon mr-4"><span class="text-primary flaticon-mobile-phone"></span></div>
                     <div>
-                        <h3>Stated Apps</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
-                        <p><a href="#">Learn More</a></p>
+                        <h3>Application Renteasy</h3>
+                        <p>Accédez à tous nos services depuis votre smartphone. Recherchez des propriétés, gérez vos locations, soumettez des demandes de maintenance, le tout dans une application intuitive.</p>
+                        <p><a href="#">En savoir plus</a></p>
                     </div>
                 </div>
             </div>
@@ -348,12 +340,14 @@
         </div>
     </div>
 </section>
+{{-- services --}}
 
+{{-- temoignages --}}
 <section class="site-section testimonial-wrap" id="testimonials-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-12 text-center">
-                <h2 class="section-title mb-3">People Says...</h2>
+                <h2 class="section-title mb-3">Ce que disent nos clients...</h2>
             </div>
         </div>
     </div>
@@ -362,12 +356,12 @@
             <div class="testimonial">
 
                 <blockquote class="mb-5">
-                    <p>&ldquo;Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur unde reprehenderit aperiam quaerat fugiat repudiandae explicabo animi minima fuga beatae illum eligendi incidunt consequatur. Amet dolores excepturi earum unde iusto.&rdquo;</p>
+                    <p>&ldquo;Renteasy a complètement transformé ma façon de gérer mes propriétés. Grâce à leur plateforme, je trouve facilement des locataires fiables et la gestion des paiements est devenue si simple. Je recommande vivement leurs services à tous les propriétaires de Lomé.&rdquo;</p>
                 </blockquote>
 
                 <figure class="mb-4 d-flex align-items-center justify-content-center">
-                    <div><img src="images/person_3.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
-                    <p>John Smith</p>
+                    <div><img src="./template/images/person_3.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
+                    <p>Kofi Mensah</p>
                 </figure>
             </div>
         </div>
@@ -375,27 +369,12 @@
             <div class="testimonial">
 
                 <blockquote class="mb-5">
-                    <p>&ldquo;Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur unde reprehenderit aperiam quaerat fugiat repudiandae explicabo animi minima fuga beatae illum eligendi incidunt consequatur. Amet dolores excepturi earum unde iusto.&rdquo;</p>
+                    <p>&ldquo;En tant que locataire, j'ai trouvé mon appartement idéal en quelques clics sur Renteasy. Le processus de location était transparent et rapide. L'équipe de maintenance intervient toujours rapidement quand j'ai un problème. C'est vraiment un service de qualité !&rdquo;</p>
                 </blockquote>
                 <figure class="mb-4 d-flex align-items-center justify-content-center">
-                    <div><img src="images/person_2.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
-                    <p>Christine Aguilar</p>
+                    <div><img src="./template/images/person_2.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
+                    <p>Akosua Adjei</p>
                 </figure>
-
-            </div>
-        </div>
-
-        <div>
-            <div class="testimonial">
-
-                <blockquote class="mb-5">
-                    <p>&ldquo;Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur unde reprehenderit aperiam quaerat fugiat repudiandae explicabo animi minima fuga beatae illum eligendi incidunt consequatur. Amet dolores excepturi earum unde iusto.&rdquo;</p>
-                </blockquote>
-                <figure class="mb-4 d-flex align-items-center justify-content-center">
-                    <div><img src="images/person_4.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
-                    <p>Robert Spears</p>
-                </figure>
-
 
             </div>
         </div>
@@ -404,11 +383,25 @@
             <div class="testimonial">
 
                 <blockquote class="mb-5">
-                    <p>&ldquo;Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur unde reprehenderit aperiam quaerat fugiat repudiandae explicabo animi minima fuga beatae illum eligendi incidunt consequatur. Amet dolores excepturi earum unde iusto.&rdquo;</p>
+                    <p>&ldquo;Depuis que j'utilise Renteasy pour mes investissements immobiliers au Togo, ma rentabilité a considérablement augmenté. Leur analyse de marché et leurs conseils m'ont aidé à prendre les bonnes décisions. Une plateforme indispensable pour tout investisseur sérieux.&rdquo;</p>
                 </blockquote>
                 <figure class="mb-4 d-flex align-items-center justify-content-center">
-                    <div><img src="images/person_4.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
-                    <p>Bruce Rogers</p>
+                    <div><img src="./template/images/person_4.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
+                    <p>Mamadou Traoré</p>
+                </figure>
+
+            </div>
+        </div>
+
+        <div>
+            <div class="testimonial">
+
+                <blockquote class="mb-5">
+                    <p>&ldquo;La gestion de mes nombreuses propriétés était un cauchemar avant Renteasy. Maintenant, tout est centralisé : suivi des loyers, demandes de maintenance, communication avec les locataires. Cette application a révolutionné mon activité immobilière à Lomé.&rdquo;</p>
+                </blockquote>
+                <figure class="mb-4 d-flex align-items-center justify-content-center">
+                    <div><img src="./template/images/person_4.jpg" alt="Image" class="w-50 img-fluid mb-3"></div>
+                    <p>Afi Kpenou</p>
                 </figure>
 
             </div>
@@ -416,77 +409,73 @@
 
     </div>
 </section>
+{{-- temoignages --}}
 
-
+{{-- annonces et pub --}}
 <section class="site-section" id="news-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-12 text-center">
-                <h2 class="section-title mb-3">News &amp; Events</h2>
+                <h2 class="section-title mb-3">Annonces &amp; Pubs</h2>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
                 <div class="h-entry">
-                    <a href="single.html"><img src="images/property_1.jpg" alt="Image" class="img-fluid"></a>
-                    <h2 class="font-size-regular"><a href="single.html" class="text-dark">20+ Real Properties for Realtors</a></h2>
-                    <div class="meta mb-4">Ham Brook <span class="mx-2">&bullet;</span> Jan 18, 2019<span class="mx-2">&bullet;</span> <a href="single.html">News</a></div>
+                    <a href="#"><img src="./template/images/property_1.jpg" alt="Image" class="img-fluid"></a>
+                    <h2 class="font-size-regular"><a href="#" class="text-dark">Plus de 20 Propriétés Immobilières Disponibles</a></h2>
+                    <div class="meta mb-4">Marie Kouassi <span class="mx-2">&bullet;</span> 18 Jan, 2025<span class="mx-2">&bullet;</span> <a href="#">Actualités</a></div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
                 <div class="h-entry">
-                    <a href="single.html"><img src="images/property_2.jpg" alt="Image" class="img-fluid"></a>
-                    <h2 class="font-size-regular"><a href="single.html" class="text-dark">20+ Real Properties for Realtors</a></h2>
-                    <div class="meta mb-4">James Phelps <span class="mx-2">&bullet;</span> Jan 18, 2019<span class="mx-2">&bullet;</span> <a href="single.html">News</a></div>
-
+                    <a href="#"><img src="./template/images/property_2.jpg" alt="Image" class="img-fluid"></a>
+                    <h2 class="font-size-regular"><a href="#" class="text-dark">Nouvelles Opportunités d'Investissement Immobilier</a></h2>
+                    <div class="meta mb-4">Kofi Mensah <span class="mx-2">&bullet;</span> 15 Jan, 2025<span class="mx-2">&bullet;</span> <a href="#">Actualités</a></div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
                 <div class="h-entry">
-                    <a href="single.html"><img src="images/property_3.jpg" alt="Image" class="img-fluid"></a>
-                    <h2 class="font-size-regular"><a href="single.html" class="text-dark">20+ Real Properties for Realtors</a></h2>
-                    <div class="meta mb-4">James Phelps <span class="mx-2">&bullet;</span> Jan 18, 2019<span class="mx-2">&bullet;</span> <a href="single.html">News</a></div>
+                    <a href="#"><img src="./template/images/property_3.jpg" alt="Image" class="img-fluid"></a>
+                    <h2 class="font-size-regular"><a href="#" class="text-dark">Services de Maintenance et Gestion Immobilière</a></h2>
+                    <div class="meta mb-4">Fatou Diallo <span class="mx-2">&bullet;</span> 12 Jan, 2025<span class="mx-2">&bullet;</span> <a href="#">Actualités</a></div>
                 </div>
             </div>
 
         </div>
     </div>
 </section>
+{{-- annonces et pub --}}
 
-
-
-
+{{-- contact --}}
 <section class="site-section bg-light bg-image" id="contact-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-12 text-center">
-                <!-- <h3 class="section-sub-title">Get</h3> -->
-                <h2 class="section-title mb-3">Contct Us</h2>
+                <!-- <h3 class="section-sub-title">Prendre</h3> -->
+                <h2 class="section-title mb-3">Contactez-nous</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-md-7 mb-5">
 
-
-
                 <form action="#" class="p-5 bg-white">
 
-                    <h2 class="h4 text-black mb-5">Contact Form</h2>
+                    <h2 class="h4 text-black mb-5">Formulaire de Contact</h2>
 
                     <div class="row form-group">
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <label class="text-black" for="fname">First Name</label>
+                            <label class="text-black" for="fname">Prénom</label>
                             <input type="text" id="fname" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label class="text-black" for="lname">Last Name</label>
+                            <label class="text-black" for="lname">Nom</label>
                             <input type="text" id="lname" class="form-control">
                         </div>
                     </div>
 
                     <div class="row form-group">
-
                         <div class="col-md-12">
                             <label class="text-black" for="email">Email</label>
                             <input type="email" id="email" class="form-control">
@@ -494,9 +483,8 @@
                     </div>
 
                     <div class="row form-group">
-
                         <div class="col-md-12">
-                            <label class="text-black" for="subject">Subject</label>
+                            <label class="text-black" for="subject">Sujet</label>
                             <input type="subject" id="subject" class="form-control">
                         </div>
                     </div>
@@ -504,30 +492,29 @@
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label class="text-black" for="message">Message</label>
-                            <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Write your notes or questions here..."></textarea>
+                            <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Écrivez vos notes ou questions ici..."></textarea>
                         </div>
                     </div>
 
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <input type="submit" value="Send Message" class="btn btn-primary btn-md text-white">
+                            <input type="submit" value="Envoyer le Message" class="btn btn-primary btn-md text-white">
                         </div>
                     </div>
-
 
                 </form>
             </div>
             <div class="col-md-5">
 
                 <div class="p-4 mb-3 bg-white">
-                    <p class="mb-0 font-weight-bold">Address</p>
-                    <p class="mb-4">203 Fake St. Mountain View, San Francisco, California, USA</p>
+                    <p class="mb-0 font-weight-bold">Adresse</p>
+                    <p class="mb-4">123 Rue de la Paix, Lomé, Maritime, Togo</p>
 
-                    <p class="mb-0 font-weight-bold">Phone</p>
-                    <p class="mb-4"><a href="#">+1 232 3235 324</a></p>
+                    <p class="mb-0 font-weight-bold">Téléphone</p>
+                    <p class="mb-4"><a href="#">+228 22 12 34 56</a></p>
 
-                    <p class="mb-0 font-weight-bold">Email Address</p>
-                    <p class="mb-0"><a href="#">youremail@domain.com</a></p>
+                    <p class="mb-0 font-weight-bold">Adresse Email</p>
+                    <p class="mb-0"><a href="#">contact@renteasy.tg</a></p>
 
                 </div>
 
@@ -535,5 +522,5 @@
         </div>
     </div>
 </section>
-
+{{-- contact --}}
 @endsection
