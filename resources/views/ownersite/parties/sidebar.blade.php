@@ -74,6 +74,22 @@
         </div>
     </li>
 
+      <!-- Nav Item - Maintenances -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaintenances"
+            aria-expanded="true" aria-controls="collapseMaintenances">
+            <i class="fas fa-file-contract"></i>
+            <span>Maintenance</span>
+        </a>
+        <div id="collapseMaintenances" class="collapse" aria-labelledby="headingMaintenances" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Menus</h6>
+                <a class="collapse-item" href="{{ route('maintenance.index') }}">Boite des Maintenances</a>
+                {{-- <a class="collapse-item" href="{{ route('contracts.all') }}">Voir tous les contrats</a> --}}
+            </div>
+        </div>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

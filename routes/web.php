@@ -91,10 +91,15 @@ Route::delete('/contracts/{contract}', [ContractController::class, 'destroy'])->
 // Route::get('/contracts/{contract}/download', [ContractController::class, 'download'])->name('contracts.download');
 Route::post('/contracts/{contract}/terminate', [ContractController::class, 'terminate'])->name('contracts.terminate');
 
-    // Demandes de maintenance
-    Route::get('/maintenance-requests', [MaintenanceRequestController::class, 'index']);
-    Route::post('/tenants/{tenant}/maintenance-requests', [MaintenanceRequestController::class, 'store']);
+ // Routes pour les demandes de maintenance
+Route::get('/maintenance/create', [MaintenanceRequestController::class, 'create'])->name('maintenance.create');
+Route::post('/maintenance', [MaintenanceRequestController::class, 'store'])->name('maintenance.store');
+Route::get('/maintenance/rooms/{property}', [MaintenanceRequestController::class, 'getRoomsByProperty'])->name('maintenance.rooms');
 
+// Routes pour les propriétaires
+Route::get('/maintenanceboite', [MaintenanceRequestController::class, 'index'])->name('maintenance.index');
+Route::get('/maintenance/property/{property}', [MaintenanceRequestController::class, 'indexByProperty'])->name('maintenance.property');
+Route::patch('/maintenance/{maintenance}/status', [MaintenanceRequestController::class, 'updateStatus'])->name('maintenance.status');
     // Ajouter ces routes dans votre fichier routes/api.php
     Route::get('/properties', function () {
         return App\Models\Property::all(['id', 'name']);
