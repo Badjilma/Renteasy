@@ -58,8 +58,8 @@
                                     <tr>
                                         <td>{{ $request->created_at->format('d/m/Y H:i') }}</td>
                                         <td>
-                                            <strong>{{ $request->tenant->first_name }} {{ $request->tenant->last_name }}</strong><br>
-                                            <small class="text-muted">{{ $request->tenant->email }}</small>
+                                            <strong>{{ $request->tenant->name }}</strong><br>
+
                                         </td>
                                         <td>
                                             <strong>{{ $request->property->name }}</strong><br>

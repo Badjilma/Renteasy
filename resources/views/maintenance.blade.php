@@ -55,10 +55,15 @@
 
                            <div class="form-group">
                                 <label for="tenant_id">Sélectionnez votre nom *</label>
-                                <select name="tenant_id" id="tenant_id" class="form-control @error('tenant_id') is-invalid @enderror" required style="color: #333; background-color: #fff;">
+                                <select name="tenant_id" id="tenant_id" class="form-control @error('tenant_id') is-invalid @enderror" required style="color: #333; background-color: #fff;" onchange="loadTenantData()">
                                     <option value="">-- Choisissez votre nom --</option>
                                     @foreach($tenants as $tenant)
-                                        <option value="{{ $tenant->id }}" {{ old('tenant_id') == $tenant->id ? 'selected' : '' }}>
+                                        <option value="{{ $tenant->id }}"
+                                                data-property-id="{{ $tenant->rooms->first()->property->id ?? '' }}"
+                                                data-property-name="{{ $tenant->rooms->first()->property->name ?? '' }} - {{ $tenant->rooms->first()->property->address ?? '' }}"
+                                                data-room-id="{{ $tenant->rooms->first()->id ?? '' }}"
+                                                data-room-name="{{ $tenant->rooms->first()->name ?? '' }}"
+                                                {{ old('tenant_id') == $tenant->id ? 'selected' : '' }}>
                                             {{ $tenant->name }} {{ $tenant->phone }}
                                         </option>
                                     @endforeach
@@ -69,28 +74,29 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="property_id">Sélectionnez la propriété *</label>
-                                <select name="property_id" id="property_id" class="form-control @error('property_id') is-invalid @enderror" required onchange="loadRooms()">
-                                    <option value="">-- Choisissez la propriété --</option>
-                                    @foreach($properties as $property)
-                                        <option value="{{ $property->id }}" {{ old('property_id') == $property->id ? 'selected' : '' }}>
-                                            {{ $property->name }} - {{ $property->address }}
-                                        </option>
-                                    @endforeach
+                                <label for="property_id">Propriété associée *</label>
+                                <select name="property_id" id="property_id" class="form-control @error('property_id') is-invalid @enderror" required readonly style="background-color: #f8f9fa;">
+                                    <option value="">-- Sera rempli automatiquement --</option>
                                 </select>
                                 @error('property_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                <small class="form-text text-muted">
+                                    La propriété sera automatiquement sélectionnée en fonction du locataire choisi.
+                                </small>
                             </div>
 
                             <div class="form-group">
-                                <label for="room_id">Sélectionnez la chambre *</label>
-                                <select name="room_id" id="room_id" class="form-control @error('room_id') is-invalid @enderror" required disabled>
-                                    <option value="">-- Sélectionnez d'abord une propriété --</option>
+                                <label for="room_id">Chambre associée *</label>
+                                <select name="room_id" id="room_id" class="form-control @error('room_id') is-invalid @enderror" required readonly style="background-color: #f8f9fa;">
+                                    <option value="">-- Sera remplie automatiquement --</option>
                                 </select>
                                 @error('room_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                <small class="form-text text-muted">
+                                    La chambre sera automatiquement sélectionnée en fonction du locataire choisi.
+                                </small>
                             </div>
 
                             <div class="form-group">
@@ -105,7 +111,7 @@
                             </div>
 
                             <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary btn-lg">
+                                <button type="submit" class="btn btn-primary btn-lg" id="submit-btn" disabled>
                                     <i class="icon-paper-plane"></i> Envoyer la demande
                                 </button>
                                 <a href="{{ url('/') }}" class="btn btn-secondary btn-lg ml-2">
@@ -130,64 +136,109 @@
 </div>
 
 <script>
-function loadRooms() {
-    const propertyId = document.getElementById('property_id').value;
+// Fonction pour charger les données du locataire
+function loadTenantData() {
+    const tenantSelect = document.getElementById('tenant_id');
+    const propertySelect = document.getElementById('property_id');
     const roomSelect = document.getElementById('room_id');
+    const submitBtn = document.getElementById('submit-btn');
 
-    if (propertyId) {
-        // Activer le select des chambres
-        roomSelect.disabled = false;
-        roomSelect.innerHTML = '<option value="">Chargement...</option>';
+    // Réinitialiser les champs
+    propertySelect.innerHTML = '<option value="">-- Sera rempli automatiquement --</option>';
+    roomSelect.innerHTML = '<option value="">-- Sera remplie automatiquement --</option>';
+    submitBtn.disabled = true;
 
-        // Requête AJAX pour charger les chambres
-        fetch(`/maintenance/rooms/${propertyId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur réseau');
-                }
-                return response.json();
-            })
-            .then(rooms => {
-                roomSelect.innerHTML = '<option value="">-- Choisissez la chambre --</option>';
+    if (!tenantSelect.value) {
+        return;
+    }
 
-                if (rooms && rooms.length > 0) {
-                    rooms.forEach(room => {
-                        const option = document.createElement('option');
-                        option.value = room.id;
-                        // Vérification des propriétés avant utilisation
-                        const roomNumber = room.room_number || room.number || 'N/A';
-                        const roomType = room.type || 'Type non défini';
-                        option.textContent = `Chambre ${roomNumber} - ${roomType}`;
-                        roomSelect.appendChild(option);
-                    });
-                } else {
-                    roomSelect.innerHTML = '<option value="">Aucune chambre disponible</option>';
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors du chargement des chambres:', error);
-                roomSelect.innerHTML = '<option value="">Erreur lors du chargement</option>';
-            });
+    // Récupérer l'option sélectionnée
+    const selectedOption = tenantSelect.options[tenantSelect.selectedIndex];
+
+    // Extraire les données depuis les attributs data-*
+    const propertyId = selectedOption.getAttribute('data-property-id');
+    const propertyName = selectedOption.getAttribute('data-property-name');
+    const roomId = selectedOption.getAttribute('data-room-id');
+    const roomName = selectedOption.getAttribute('data-room-name');
+
+    // Vérifier si les données existent
+    if (propertyId && roomId && propertyName && roomName) {
+        // Remplir le champ propriété
+        propertySelect.innerHTML = '';
+        const propertyOption = document.createElement('option');
+        propertyOption.value = propertyId;
+        propertyOption.textContent = propertyName;
+        propertyOption.selected = true;
+        propertySelect.appendChild(propertyOption);
+
+        // Remplir le champ chambre
+        roomSelect.innerHTML = '';
+        const roomOption = document.createElement('option');
+        roomOption.value = roomId;
+        roomOption.textContent = roomName;
+        roomOption.selected = true;
+        roomSelect.appendChild(roomOption);
+
+        // Activer le bouton de soumission
+        submitBtn.disabled = false;
+
+        // Afficher un message de confirmation
+        showMessage('Propriété et chambre chargées automatiquement', 'success');
     } else {
-        roomSelect.disabled = true;
-        roomSelect.innerHTML = '<option value="">-- Sélectionnez d\'abord une propriété --</option>';
+        // Aucune donnée trouvée pour ce locataire
+        propertySelect.innerHTML = '<option value="">Aucune propriété associée</option>';
+        roomSelect.innerHTML = '<option value="">Aucune chambre associée</option>';
+
+        showMessage('Aucune propriété ou chambre associée à ce locataire', 'warning');
     }
 }
 
-// Pré-remplir les chambres si une propriété est sélectionnée
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const propertyId = urlParams.get('property_id');
-    const tenantId = urlParams.get('tenant_id');
+// Fonction pour afficher des messages temporaires
+function showMessage(message, type) {
+    // Supprimer les messages existants
+    const existingMessages = document.querySelectorAll('.temp-message');
+    existingMessages.forEach(msg => msg.remove());
 
-    if (propertyId) {
-        document.getElementById('property_id').value = propertyId;
-        if (tenantId) {
-            document.getElementById('tenant_id').value = tenantId;
+    // Créer le nouveau message
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'warning'} temp-message`;
+    alertDiv.style.marginTop = '10px';
+    alertDiv.innerHTML = `
+        <i class="icon-${type === 'success' ? 'check' : 'exclamation-triangle'}"></i> ${message}
+    `;
+
+    // Insérer le message après le formulaire
+    const cardBody = document.querySelector('.card-body');
+    cardBody.appendChild(alertDiv);
+
+    // Supprimer le message après 3 secondes
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
         }
-        // Charger les chambres automatiquement
-        loadRooms();
+    }, 3000);
+}
+
+// Initialiser au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    // Si un locataire est pré-sélectionné (en cas d'erreur de validation)
+    const tenantSelect = document.getElementById('tenant_id');
+    if (tenantSelect.value) {
+        loadTenantData();
     }
+
+    // Validation du formulaire avant soumission
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const tenantId = document.getElementById('tenant_id').value;
+        const propertyId = document.getElementById('property_id').value;
+        const roomId = document.getElementById('room_id').value;
+
+        if (!tenantId || !propertyId || !roomId) {
+            e.preventDefault();
+            showMessage('Veuillez sélectionner un locataire valide avec une propriété et une chambre associées', 'error');
+            return false;
+        }
+    });
 });
 </script>
 

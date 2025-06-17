@@ -17,19 +17,17 @@ class MaintenanceRequestController extends Controller
     {
         $this->notificationService = $notificationService;
     }
+
     // Afficher le formulaire de demande de maintenance
     public function create()
     {
-        $tenants = Tenant::all();
+        // Récupérer les locataires avec leurs propriétés et chambres associées
+        $tenants = Tenant::with(['rooms.property'])->get();
         $properties = Property::all();
-        return view('maintenance', compact('tenants', 'properties'));
-    }
+        // Charger toutes les chambres avec leurs propriétés
+        $rooms = Room::with('property')->get();
 
-    // Récupérer les chambres d'une propriété (pour AJAX si nécessaire plus tard)
-    public function getRoomsByProperty($propertyId)
-    {
-        $rooms = Room::where('property_id', $propertyId)->get();
-        return response()->json($rooms);
+        return view('maintenance', compact('tenants', 'properties', 'rooms'));
     }
 
     // Stocker la demande de maintenance
@@ -71,6 +69,8 @@ class MaintenanceRequestController extends Controller
 
         return redirect()->route('maintenance.create')->with('success', 'Votre demande de maintenance a été envoyée avec succès. Le propriétaire sera notifié.');
     }
+
+    // Les autres méthodes restent inchangées...
 
     // Afficher toutes les demandes pour les propriétaires
     public function index()

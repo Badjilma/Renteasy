@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Property;
 use App\Models\Tenant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->longText('description');
             $table->foreignIdFor(Tenant::class);
+            $table->foreignIdFor(Property::class);
             $table->timestamps();
         });
     }
