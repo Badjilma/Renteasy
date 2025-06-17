@@ -102,7 +102,7 @@
 
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <a href="{{ route('public.properties.all') }}" class="btn btn-primary btn-block">Voir tous les propriétés disponibles</a>
+                <a href="{{ route('liste.properties.all') }}" class="btn btn-primary btn-block">Voir tous les propriétés disponibles</a>
             </div>
         </div>
     </div>

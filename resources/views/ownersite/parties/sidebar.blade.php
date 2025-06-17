@@ -78,7 +78,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaintenances"
             aria-expanded="true" aria-controls="collapseMaintenances">
-            <i class="fas fa-file-contract"></i>
+           <i class="fas fa-wrench"></i> 
             <span>Maintenance</span>
         </a>
         <div id="collapseMaintenances" class="collapse" aria-labelledby="headingMaintenances" data-parent="#accordionSidebar">

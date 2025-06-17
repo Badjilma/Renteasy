@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PublicAllController;
 use App\Http\Controllers\PublicPropertyController;
 use App\Http\Controllers\PublicRoomController;
 use App\Http\Controllers\RoomController;
@@ -13,6 +14,10 @@ use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Routes publiques pour les propriétés
+Route::get('/propertieslistes', [PublicAllController::class, 'index'])
+    ->name('liste.properties.all');
 
 // Routes publiques pour l'affichage des propriétés
 Route::get('/propertiespublic', [PublicPropertyController::class, 'index'])->name('public.properties.all');
